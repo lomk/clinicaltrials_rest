@@ -1,29 +1,33 @@
 package ua.com.clinicaltrials.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.clinicaltrials.domain.Article;
+import ua.com.clinicaltrials.errors.CustomErrorType;
+import ua.com.clinicaltrials.repositories.ArticleRepository;
 import ua.com.clinicaltrials.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by Igor on 18-Jul-16.
  */
-@Controller
+@RestController
 @RequestMapping("/admin/article")
 public class AdminArticleController {
+
+    @Autowired
+    ArticleRepository articleRepository;
 
     @Autowired
     ImageService imageService;
@@ -41,33 +45,32 @@ public class AdminArticleController {
     TagService tagService;
 
     @RequestMapping(value = "all", method = RequestMethod.GET)
-    public String articleList(Model model) {
-        model.addAttribute("articles", articleService.listAllArticles());
-        return "admin/articles";
+    public ResponseEntity<?> articleList() {
+        List<Article> articleList = (List) articleService.listAllArticles();
+        if (articleList == null || articleList.isEmpty()){
+            return new ResponseEntity(new CustomErrorType("No data found"),
+                    HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(articleList, HttpStatus.OK);
+    }
+    
+
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> getArticle(@PathVariable Integer id){
+        Article article = articleRepository.findOne(id);
+        if (article == null){
+            return new ResponseEntity(new CustomErrorType(
+                    "Article with id " + id + " not found."),
+                    HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(article, HttpStatus.OK);
     }
 
-    @RequestMapping("edit/{id}")
-    public String articleEdit(@PathVariable Integer id, Model model){
-        model.addAttribute("article", articleService.getArticleById(id));
-        return "admin/newarticle";
-    }
-
-    @RequestMapping("new")
-    public String newArticle(Model model){
-        model.addAttribute("categories", categoryService.listAllCategories());
-        model.addAttribute("tags", tagService.listAllTags());
-        model.addAttribute("article", new Article());
-        return "admin/newarticle";
-    }
-
-    @RequestMapping("{id}")
-    public String showArticle(@PathVariable Integer id, Model model){
-        model.addAttribute("article", articleService.getArticleById(id));
-        return "admin/article";
-    }
-
-    @RequestMapping(value = "new", headers=("content-type=multipart/*"), method = RequestMethod.POST)
-    public String saveArticle( Article article, BindingResult bindingResult, @RequestParam(value = "image", required = false) MultipartFile image){
+    @RequestMapping(value = "add", headers=("content-type=multipart/*"), method = RequestMethod.POST)
+    public String saveArticle( Article article,
+                               BindingResult bindingResult,
+                               @RequestParam(value = "image",
+                                       required = false) MultipartFile image){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
         //article.setDesc(article.getBody().substring(0, 99));
@@ -98,9 +101,22 @@ public class AdminArticleController {
         return "redirect:/admin/article/" + article.getId();
     }
 
-    @RequestMapping("delete/{id}")
-    public String delete(@PathVariable Integer id){
-        articleService.deleteArticle(id);
-        return "redirect:/admin/article/all";
+    
+    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> delArticle(@PathVariable("id") Integer id) {
+        Article article = articleRepository.findOne(id);
+        if (article == null ){
+            return new ResponseEntity(new CustomErrorType(
+                    "Local IP with id " + id + " not found."),
+                    HttpStatus.NOT_FOUND);
+        }
+        try {
+            articleRepository.delete(article);
+        } catch (Exception e){
+            return new ResponseEntity(new CustomErrorType(
+                    "Can't delete."),
+                    HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<String>("Deleted", HttpStatus.OK);
     }
 }

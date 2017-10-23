@@ -23,24 +23,23 @@ public class ImageController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST, produces = MediaType.TEXT_HTML_VALUE)
     public @ResponseBody String imageLoad(@RequestParam(value = "image", required = false) MultipartFile image){
 
-        String imageName = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
-        String imageType = ".jpg";
+        String imageName = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime()) + ".jpg";
+        String imageUrl = "/image/get/" + imageName;
         if (!image.isEmpty()) {
             try {
                 imageService.validateImage(image);
             } catch (RuntimeException re) {
 //                bindingResult.reject(re.getMessage());
-                return "<script>alert('" + re +"');</script>";
+                return "{\"error\":\"Wrong or empty data\"}";
             }
             try {
-
-                imageService.saveImage(imageName+imageType, image);
+                imageService.saveImage(imageName, image);
             } catch (IOException e) {
 //                bindingResult.reject(e.getMessage());
-                return "<script>alert('" + e +"');</script>";
+                return "{\"error\":\"Cant save\"}";
             }
         }
-        return "<script>top.$('.mce-btn.mce-open').parent().find('.mce-textbox').val('" + "/image/get/" + imageName + imageType + "').closest('.mce-window').find('.mce-primary').click();</script>";
+        return "{\"url\":\"" + imageUrl + "\"}";
     }
 
     /*@ResponseBody

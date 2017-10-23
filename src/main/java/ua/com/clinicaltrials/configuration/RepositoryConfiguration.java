@@ -4,82 +4,101 @@ package ua.com.clinicaltrials.configuration;
  * Created by Igor on 07-Jun-16.
  */
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.orm.jpa.EntityScan;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
+import org.springframework.context.annotation.*;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
 import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
-import java.util.Properties;
+import java.util.HashMap;
 
 @Configuration
-
-@EntityScan(basePackages = {"ua.com.clinicaltrials.domain"})
 @EnableJpaRepositories(basePackages = {"ua.com.clinicaltrials.repositories"})
 @EnableTransactionManagement
-//@ComponentScan(basePackages = { "ua.com.clinicaltrials", "ua.com.clinicaltrials.domain", "ua.com.clinicaltrials.repositories", "ua.com.clinicaltrials.services", "ua.com.clinicaltrials.validator" })
 public class RepositoryConfiguration {
-    @Value("${spring.datasource.driverClassName}")
-    private String databaseDriverClassName;
+    @Value("${admin.datasource.driver}")
+    private String DB_DRIVER;
 
-    @Value("${spring.datasource.url}")
-    private String datasourceUrl;
+    @Value("${admin.datasource.password}")
+    private String DB_PASSWORD;
 
-    @Value("${spring.datasource.username}")
-    private String databaseUsername;
+    @Value("${admin.datasource.url}")
+    private String DB_URL;
 
-    @Value("${spring.datasource.password}")
-    private String databasePassword;
+    @Value("${admin.datasource.username}")
+    private String DB_USERNAME;
+
+    @Value("${hibernate.dialect}")
+    private String HIBERNATE_DIALECT;
+
+    @Value("${hibernate.show_sql}")
+    private String HIBERNATE_SHOW_SQL;
+
+    @Value("${hibernate.hbm2ddl.auto}")
+    private String HIBERNATE_HBM2DDL_AUTO;
+
+    @Value("${hibernate.c3p0.max_size}")
+    private String CONN_POOL_MAX_SIZE;
+
+    @Value("${hibernate.c3p0.min_size}")
+    private String CONN_POOL_MIN_SIZE;
+
+    @Value("${hibernate.c3p0.idle_test_period}")
+    private String CONN_POOL_IDLE_PERIOD;
+
 
     @Bean
-    public DataSource datasource()  {
-        org.apache.tomcat.jdbc.pool.DataSource ds = new org.apache.tomcat.jdbc.pool.DataSource();
-        ds.setDriverClassName(databaseDriverClassName);
-        ds.setUrl(datasourceUrl);
-        ds.setUsername(databaseUsername);
-        ds.setPassword(databasePassword);
-        ds.setMaxIdle(5);
-        ds.setMaxActive(20);
-        ds.setMinIdle(5);
-        ds.setTestOnBorrow(true);
-        ds.setValidationQuery("SELECT 1");
-        return ds;
+    @Primary
+    public ComboPooledDataSource adminDataSource() {
+
+        ComboPooledDataSource dataSource = new ComboPooledDataSource("adminDataSource");
+
+        try {
+            dataSource.setDriverClass(DB_DRIVER);
+        } catch (PropertyVetoException pve){
+            System.out.println("Cannot load datasource driver (" + DB_DRIVER +") : " + pve.getMessage());
+            return null;
+        }
+        dataSource.setJdbcUrl(DB_URL);
+        dataSource.setUser(DB_USERNAME);
+        dataSource.setPassword(DB_PASSWORD);
+        dataSource.setMinPoolSize(Integer.parseInt(CONN_POOL_MIN_SIZE));
+        dataSource.setMaxPoolSize(Integer.parseInt(CONN_POOL_MAX_SIZE));
+        dataSource.setMaxIdleTime(Integer.parseInt(CONN_POOL_IDLE_PERIOD));
+
+        return dataSource;
+    }
+
+
+    @Bean
+    @Primary
+    public LocalContainerEntityManagerFactoryBean adminEntityManagerFactory(final EntityManagerFactoryBuilder builder)
+    {
+
+        HashMap<String, Object> properties = new HashMap<>();
+        properties.put("hibernate.hbm2ddl.auto", "create-drop");
+        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        properties.put("hibernate.show_sql", "true");
+//        properties.put("hibernate.hbm2ddl.auto", "HIBERNATE_HBM2DDL_AUTO");
+//        properties.put("hibernate.dialect", "HIBERNATE_DIALECT");
+//        properties.put("hibernate.show_sql", "HIBERNATE_SHOW_SQL");
+        return builder
+                .dataSource(adminDataSource())
+                .packages("net.elyland.pipe.domain.admin")
+                .persistenceUnit("adminPersistenceUnit")
+                .properties(properties)
+                .build();
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(datasource());
-        em.setPackagesToScan(new String[] { "ua.com.clinicaltrials.domain" });
-        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        em.setJpaVendorAdapter(vendorAdapter);
-        em.setJpaProperties(additionalProperties());
-        return em;
-    }
-
-    Properties additionalProperties() {
-        Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-        properties.setProperty("hibernate.show_sql", "true");
-        properties.setProperty("hibernate.connection.driver_class", databaseDriverClassName);
-        return properties;
-    }
-
-    @Bean
-    public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(emf);
-        return transactionManager;
+    @Primary
+    public JpaTransactionManager adminTransactionManager(@Qualifier("adminEntityManagerFactory") final EntityManagerFactory factory)
+    {
+        return new JpaTransactionManager(factory);
     }
 }

@@ -1,30 +1,37 @@
 package ua.com.clinicaltrials.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import ua.com.clinicaltrials.custom.MyCustomLoginSuccessHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
 
 /**
  * Created by Igor on 09-Jun-16.
  */
 @Configuration
-//@EnableWebSecurity
-//@EnableWebMvcSecurity
-//@EnableAutoConfiguration
+@EnableWebSecurity(debug = true)
+@EnableAutoConfiguration
+@AutoConfigureAfter({RepositoryConfiguration.class})
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan(basePackages = {
         "ua.com.clinicaltrials",
         "ua.com.clinicaltrials.controllers",
@@ -37,47 +44,71 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsService userDetailsService;
 
-    @Bean
-    public AuthenticationSuccessHandler successHandler() {
-        return new MyCustomLoginSuccessHandler("/");
-    }
+    @Autowired
+    CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+    @Autowired
+    LoginFailureHandler loginFailureHandler;
+    @Autowired
+    AccessDeniedHandler accessDeniedHandler;
+    @Autowired
+    CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.authorizeRequests()
-                .antMatchers("/admin/**").access("hasAuthority('ADMIN')")
+        http    .httpBasic().and()
+                .csrf().disable()
+                .cors().and()
+                .authorizeRequests()
+//                .antMatchers("/api/admin/**").access("hasAuthority('ADMIN')")
+//                .antMatchers("/api/tester/**").access("hasAuthority('TESTER')")
                 .antMatchers(
-                        "/**"
-//                        "/article/**",
-//                        "/registration**",
-//                        "/resourses**",
-//                        "/bootstrap/**",
-//                        "/resourses/**",
-//                        "/images**",
-//                        "/images/**",
-//                        "/css/**",
-//                        "/css**"
-                )
+                        "/**",
+                        "/api**",
+                        "/logon/**",
+                        "/login")
                 .permitAll()
                 .and()
                 .authorizeRequests()
                 .anyRequest()
-                .authenticated();
+                .authenticated()
+                .and()
+                .authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll();
         http.formLogin()
-                .failureUrl("/login?error")
-//                .defaultSuccessUrl("/")
-                .loginPage("/login")
+//                .failureUrl("/logon/login_error")
+                .successHandler(customAuthenticationSuccessHandler)
+//                .defaultSuccessUrl("/logon/success_login")
+                .failureHandler(loginFailureHandler)
+//                .loginPage("/logon/login")
                 .usernameParameter("username").passwordParameter("password")
-                .successHandler(successHandler())
                 .permitAll()
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login")
-                .permitAll();
-        http.headers().frameOptions().sameOrigin();
+//                .logoutSuccessUrl("/logon/success_logout")
+                .permitAll()
+                .and().exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint);
     }
+
+    @Bean
+    public CorsFilter corsFilter() {
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true); // you USUALLY want this
+//        config.addAllowedOrigin("http://192.168.0.219:4200");
+        config.addAllowedOrigin("*");
+        config.setMaxAge((long)3600);
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("OPTIONS");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("DELETE");
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
+    }
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -86,5 +117,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(encoder);
+
     }
+
 }
