@@ -18,7 +18,11 @@ import java.beans.PropertyVetoException;
 import java.util.HashMap;
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"ua.com.clinicaltrials.repositories"})
+@EnableJpaRepositories(
+        basePackages = "ua.com.clinicaltrials.repositories",
+        entityManagerFactoryRef = "adminEntityManagerFactory",
+        transactionManagerRef = "adminTransactionManager"
+)
 @EnableTransactionManagement
 public class RepositoryConfiguration {
     @Value("${admin.datasource.driver}")
@@ -89,7 +93,7 @@ public class RepositoryConfiguration {
 //        properties.put("hibernate.show_sql", "HIBERNATE_SHOW_SQL");
         return builder
                 .dataSource(adminDataSource())
-                .packages("net.elyland.pipe.domain.admin")
+                .packages("ua.com.clinicaltrials.domain")
                 .persistenceUnit("adminPersistenceUnit")
                 .properties(properties)
                 .build();

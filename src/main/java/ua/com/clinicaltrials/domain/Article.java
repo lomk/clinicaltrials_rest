@@ -51,6 +51,7 @@ public class Article implements Serializable {
     private String bodyRu;
     @Column(name = "body_en", nullable = false, length = 10000, columnDefinition="TEXT")
     private String bodyEn;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date_field")
     private Date dateField;

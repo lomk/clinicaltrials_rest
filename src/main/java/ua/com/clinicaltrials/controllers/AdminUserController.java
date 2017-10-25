@@ -1,19 +1,14 @@
 package ua.com.clinicaltrials.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import ua.com.clinicaltrials.domain.Role;
 import ua.com.clinicaltrials.domain.User;
-import ua.com.clinicaltrials.services.RoleService;
+import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.services.UserService;
-import ua.com.clinicaltrials.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Igor on 18-Jul-16.
@@ -24,54 +19,82 @@ public class AdminUserController {
 
     @Autowired
     UserService userService;
-    @Autowired
-    RoleService roleService;
-    @Autowired
-    UserValidator userValidator;
 
     @RequestMapping(value = "all", method = RequestMethod.GET)
-    public String list(Model model) {
-        model.addAttribute("users", userService.listAllUsers());
-        return "/admin/users";
+    public ResponseEntity<?> listUser() {
+        List<User> userList = (List) userService.listAllUsers();
+        if (userList == null){
+            return new ResponseEntity(new CustomErrorType("No data found"),
+                    HttpStatus.NOT_FOUND);
+        }
+        userList.stream().forEach(user -> user.setPassword(null));
+        return new ResponseEntity<>(userList, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "{id}", method=RequestMethod.GET)
-    public String showUser(@PathVariable Integer id, Model model, HttpServletResponse response) {
-        model.addAttribute("user", userService.getUserById(id));
-        return "/admin/user";
-    }
-
-    @RequestMapping(value = "edit/{id}", method=RequestMethod.GET)
-    public String edit(@PathVariable Integer id, Model model){
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> getUser(@PathVariable("id") Integer id) {
         User user = userService.getUserById(id);
-        model.addAttribute("user", user);
-        model.addAttribute("role", user.getRole());
-        return "/admin/user";
+        if (user == null){
+            return new ResponseEntity(new CustomErrorType(
+                    "User with id " + id + " not found."),
+                    HttpStatus.NOT_FOUND);
+        }
+        user.setPassword(null);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "new", method=RequestMethod.GET)
-    public String newUser(Model model){
-        ArrayList<Role> roles = new ArrayList<Role>();
-        roles.addAll((ArrayList<Role>)roleService.listAllRoles());
-        model.addAttribute("user", new User());
-        model.addAttribute("roles", roles);
-        return "admin/newuser";
+
+    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateUser(@PathVariable Integer id, @RequestBody User user){
+        User currentUser = userService.getUserById(id);
+        if (currentUser == null){
+            return new ResponseEntity(new CustomErrorType(
+                    "Unable to upate. User with id " + id + " not found."),
+                    HttpStatus.NOT_FOUND);
+        }
+        if (user.getUsername() == null || user.getUsername().isEmpty()){
+            return new ResponseEntity(new CustomErrorType("No user set"),HttpStatus.NOT_ACCEPTABLE);
+        }
+        currentUser.setUsername(user.getUsername());
+        currentUser.setPassword(user.getPassword());
+        currentUser.setPasswordConfirm(user.getPasswordConfirm());
+        currentUser.setRole(user.getRole());
+        userService.save(currentUser);
+        return new ResponseEntity<>(currentUser, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "new", method=RequestMethod.POST)
-    public String registration(@ModelAttribute("user") User user, BindingResult bindingResult, Model model, @RequestParam(value = "image", required = false) MultipartFile image) {
-        userValidator.validate(user, bindingResult);
+    @RequestMapping(value="add", method=RequestMethod.POST, produces = "application/json", consumes = "application/json")
+    public ResponseEntity<?> addUser(@RequestBody User user){
 
-        if (bindingResult.hasErrors()) {
-            return "/admin/newuser";
+        if (user == null){
+            return new ResponseEntity(new CustomErrorType("No user set"),HttpStatus.NOT_ACCEPTABLE);
+        }
+        if (user.getUsername() == null || user.getUsername().isEmpty()){
+            return new ResponseEntity(new CustomErrorType("No user set"),HttpStatus.NOT_ACCEPTABLE);
+        }
+        if (userService.findByUsername(user.getUsername()) != null){
+            return new ResponseEntity(new CustomErrorType("Unable to create. A user with username " +
+                    user.getUsername() + " already exist."),HttpStatus.CONFLICT);
         }
         userService.save(user);
-        return "redirect:/admin/users";
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
-    @RequestMapping("/delete/{id}")
-    public String userDelete(@PathVariable Integer id){
-        userService.deleteUser(id);
-        return "redirect:/admin/users";
+    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> delUser(@PathVariable("id") Integer id) {
+        User user = userService.getUserById(id);
+        if (user == null ){
+            return new ResponseEntity(new CustomErrorType(
+                    "User with id " + id + " not found."),
+                    HttpStatus.NOT_FOUND);
+        }
+        try {
+            userService.deleteUser(user.getId());
+        } catch (Exception e){
+            return new ResponseEntity(new CustomErrorType(
+                    "User used in rules."),
+                    HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>("Deleted", HttpStatus.OK);
     }
 }
