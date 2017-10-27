@@ -30,10 +30,8 @@ public class AdminTagController {
                     "Unable to upate. Tag with id " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }
-        currentTag.setNameUa(tag.getNameUa());
-        currentTag.setNameEn(tag.getNameEn());
-        currentTag.setNameRu(tag.getNameRu());
-        currentTag.setUrl(tag.getUrl());
+        currentTag.setName(tag.getName());
+
         tagRepository.save(currentTag);
         return new ResponseEntity<>(currentTag, HttpStatus.OK);
     }
@@ -44,19 +42,12 @@ public class AdminTagController {
         if (tag == null){
             return new ResponseEntity(new CustomErrorType("No tag"),HttpStatus.NOT_ACCEPTABLE);
         }
-        if (    tag.getNameUa() == null ||
-                tag.getNameEn() == null ||
-                tag.getNameRu() == null ||
-                tag.getNameUa().isEmpty() ||
-                tag.getNameEn().isEmpty() ||
-                tag.getNameRu().isEmpty()
+        if (    tag.getName() == null ||
+                tag.getName().isEmpty()
                 ) {
             return new ResponseEntity(new CustomErrorType("No tag name"),HttpStatus.NOT_ACCEPTABLE);
         }
-        if (tagRepository.findByUrl(tag.getUrl()) != null || !tag.getUrl().isEmpty()){
-            return new ResponseEntity(new CustomErrorType("Unable to create. A tag with URL " +
-                    tag.getUrl() + " already exist."),HttpStatus.CONFLICT);
-        }
+
         tagRepository.save(tag);
         return new ResponseEntity<>(tag, HttpStatus.CREATED);
     }

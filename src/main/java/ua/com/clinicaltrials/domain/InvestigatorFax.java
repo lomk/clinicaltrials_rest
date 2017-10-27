@@ -28,6 +28,7 @@ public class InvestigatorFax implements Serializable {
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
+
     @Column(name = "phone")
     private String phone;
 }

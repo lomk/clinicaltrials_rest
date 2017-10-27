@@ -98,34 +98,34 @@ public class StudyGeneralInformation implements Serializable {
     @JoinColumn(name = "study_conduction_id")
     private StudyConduction studyConduction;*/
 
-    @ManyToMany
-    @JoinTable(name = "study_general_information_country",
-            joinColumns = {@JoinColumn(name = "study_general_info_id")},
-            inverseJoinColumns = {@JoinColumn(name = "country_id")}
-    )
-    @OrderBy("name_en")
-    private SortedSet<Country> studyConductionCountries;
-
-    @ManyToMany
-    @JoinTable(name = "study_general_information_investigational_products",
-    joinColumns = {@JoinColumn(name = "investigational_product_id")},
-            inverseJoinColumns = {@JoinColumn(name = "study_general_information_id")}
-    )
-    private Set<InvestigationalProduct> investigationalProducts;
-
-    @ManyToMany
-    @JoinTable(name = "study_general_information_comparator",
-            joinColumns = {@JoinColumn(name = "study_general_information_id")},
-            inverseJoinColumns = {@JoinColumn(name = "comparator_id")}
-    )
-    @OrderBy("name_en")
-    private SortedSet<Comparator> comparators;
-
-    @ManyToMany
-    @JoinTable(name = "study_general_information_material",
-            joinColumns = {@JoinColumn(name = "study_general_information_id")},
-            inverseJoinColumns = {@JoinColumn(name = "material_id")}
-    )
-    @OrderBy("name_en")
-    private SortedSet<StudyRelatedMaterial> studyRelatedMaterials;
+//    @ManyToMany
+//    @JoinTable(name = "study_general_information_country",
+//            joinColumns = {@JoinColumn(name = "study_general_info_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "country_id")}
+//    )
+//    @OrderBy("name_en")
+//    private SortedSet<Country> studyConductionCountries;
+//
+//    @ManyToMany
+//    @JoinTable(name = "study_general_information_investigational_products",
+//    joinColumns = {@JoinColumn(name = "investigational_product_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "study_general_information_id")}
+//    )
+//    private Set<InvestigationalProduct> investigationalProducts;
+//
+//    @ManyToMany
+//    @JoinTable(name = "study_general_information_comparator",
+//            joinColumns = {@JoinColumn(name = "study_general_information_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "comparator_id")}
+//    )
+//    @OrderBy("name_en")
+//    private SortedSet<Comparator> comparators;
+//
+//    @ManyToMany
+//    @JoinTable(name = "study_general_information_material",
+//            joinColumns = {@JoinColumn(name = "study_general_information_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "material_id")}
+//    )
+//    @OrderBy("name_en")
+//    private SortedSet<StudyRelatedMaterial> studyRelatedMaterials;
 }

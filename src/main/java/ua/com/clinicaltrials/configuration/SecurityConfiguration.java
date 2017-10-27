@@ -66,7 +66,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/**",
                         "/api**",
                         "/logon/**",
-                        "/login")
+                        "/login",
+                        "/admin/**")
                 .permitAll()
                 .and()
                 .authorizeRequests()

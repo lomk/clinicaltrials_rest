@@ -1,10 +1,12 @@
 package ua.com.clinicaltrials.controllers;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
 import ua.com.clinicaltrials.domain.*;
 import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.ArticleRepository;
@@ -25,7 +27,7 @@ import java.util.List;
 /**
  * Created by Igor on 13-Jul-16.
  */
-@Controller
+@RestController
 @RequestMapping("/article")
 public class ArticleController {
     @Autowired
@@ -41,7 +43,9 @@ public class ArticleController {
         Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "dateField"));
         Pageable pageable = new PageRequest(page, 9, sort);
 
-        List<Article> articleList = (List<Article>) articleRepository.findAll(pageable);
+        Page<Article> articlePage = articleRepository.findAll(pageable);
+        System.out.println(articlePage.getContent());
+        List<Article> articleList = articlePage.getContent();
 
         if (articleList == null || articleList.isEmpty()){
             return new ResponseEntity(new CustomErrorType("No data found"),
@@ -78,18 +82,18 @@ public class ArticleController {
         return new ResponseEntity<>(articleList, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/tag/{tagUrl}")
-    public ResponseEntity showArticlesByTag(@PathVariable String tagUrl, Model model){
-        Tag tag = tagRepository.findByUrl(tagUrl);
-        List<Tag> tags = new ArrayList<>();
-        tags.add(tag);
-        List<Article> articleList = articleRepository.findByTags(tags);
-
-        if (articleList == null || articleList.isEmpty() || articleList.size() < 1){
-            return new ResponseEntity(new CustomErrorType("No data found"),
-                    HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(articleList, HttpStatus.OK);
-    }
+//    @RequestMapping(value = "/tag/{tagName}")
+//    public ResponseEntity showArticlesByTag(@PathVariable String tagName, Model model){
+//        Tag tag = tagRepository.findByName(tagName);
+//        List<Tag> tags = new ArrayList<>();
+//        tags.add(tag);
+//        List<Article> articleList = articleRepository.findByTags(tags);
+//
+//        if (articleList == null || articleList.isEmpty() || articleList.size() < 1){
+//            return new ResponseEntity(new CustomErrorType("No data found"),
+//                    HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity<>(articleList, HttpStatus.OK);
+//    }
 
 }

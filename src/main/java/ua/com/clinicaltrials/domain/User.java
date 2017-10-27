@@ -34,11 +34,11 @@ public class User implements Serializable {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @OneToMany(mappedBy = "user", targetEntity = Article.class)
-    private Set<Article> articles;
-
-    @OneToMany(mappedBy = "user", targetEntity = Comment.class)
-    private Set<Comment> comments;
+//    @OneToMany(mappedBy = "user", targetEntity = Article.class)
+//    private Set<Article> articles;
+//
+//    @OneToMany(mappedBy = "user", targetEntity = Comment.class)
+//    private Set<Comment> comments;
 
     @Transient
     public String getPasswordConfirm() {

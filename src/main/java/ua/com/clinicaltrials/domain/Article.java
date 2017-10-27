@@ -6,8 +6,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.List;
+
 
 /**
  * Created by Igor on 19-Jul-16.
@@ -60,9 +60,9 @@ public class Article implements Serializable {
     @Column (name = "img_url")
     private String imgUrl;
 
-    @OneToMany(mappedBy = "article", targetEntity = Comment.class)
-    @OrderBy("dateTimeField ASC")
-    private Set<Comment> comments;
+//    @OneToMany(mappedBy = "article", targetEntity = Comment.class)
+//    @OrderBy("dateTimeField ASC")
+//    private List<Comment> comments;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -72,9 +72,9 @@ public class Article implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany
-    @JoinColumn(name = "tag_id")
-    private Set<Tag> tags ;
+//    @ManyToMany
+//    @JoinColumn(name = "tag_id")
+//    private List<Tag> tags ;
 
 
 }

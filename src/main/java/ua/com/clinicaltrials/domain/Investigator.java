@@ -52,12 +52,12 @@ public class Investigator implements Serializable {
     @Column(name = "birthDate")
     private String birthDate;
 
-    @OneToMany(mappedBy = "investigator", targetEntity = InvestigatorPhone.class)
-    private Set<InvestigatorPhone> phoneSet;
-    @OneToMany(mappedBy = "investigator", targetEntity = InvestigatorPhoneMobile.class)
-    private Set<InvestigatorPhoneMobile> phoneMobileSet;
-    @OneToMany(mappedBy = "investigator", targetEntity = InvestigatorFax.class)
-    private Set<InvestigatorFax> faxSet;
+//    @OneToMany(mappedBy = "investigator", targetEntity = InvestigatorPhone.class)
+//    private Set<InvestigatorPhone> phoneSet;
+//    @OneToMany(mappedBy = "investigator", targetEntity = InvestigatorPhoneMobile.class)
+//    private Set<InvestigatorPhoneMobile> phoneMobileSet;
+//    @OneToMany(mappedBy = "investigator", targetEntity = InvestigatorFax.class)
+//    private Set<InvestigatorFax> faxSet;
 
 
 }

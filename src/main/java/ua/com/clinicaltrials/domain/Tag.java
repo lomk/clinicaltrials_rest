@@ -5,7 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
+
 
 /**
  * Created by Igor on 19-Jul-16.
@@ -22,16 +23,10 @@ public class Tag implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "name_ua")
-    private String nameUa;
-    @Column(name = "name_ru")
-    private String nameRu;
-    @Column(name = "name_en")
-    private String nameEn;
-    @Column
-    private String url;
+    @Column(name = "name")
+    private String name;
 
-    @ManyToMany(mappedBy = "tags", targetEntity = Article.class)
-    @OrderBy("dateField ASC")
-    private Set<Article> articles;
+//    @ManyToMany(mappedBy = "tags", targetEntity = Article.class)
+//    @OrderBy("dateField ASC")
+//    private List<Article> articles;
 }

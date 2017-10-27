@@ -5,7 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
+
 
 /**
  * Created by Igor on 06-Jul-16.
@@ -31,9 +32,9 @@ public class Category implements Serializable {
     @Column
     private String url;
 
-    @OneToMany(mappedBy = "category", targetEntity = Article.class)
-    @OrderBy("dateField ASC")
-    private Set<Article> articles;
+//    @OneToMany(mappedBy = "category", targetEntity = Article.class)
+//    @OrderBy("dateField ASC")
+//    private List<Article> articles;
 
 
 }

@@ -7,5 +7,5 @@ import ua.com.clinicaltrials.domain.Tag;
  * Created by Igor on 20-Jul-16.
  */
 public interface TagRepository extends JpaRepository<Tag, Integer> {
-    Tag findByUrl(String url);
+    Tag findByName(String name);
 }
