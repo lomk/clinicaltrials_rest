@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Igor on 13-Jul-16.
@@ -46,6 +47,10 @@ public class ArticleController {
         Page<Article> articlePage = articleRepository.findAll(pageable);
         System.out.println(articlePage.getContent());
         List<Article> articleList = articlePage.getContent();
+        articleList = articleList.stream().map(article -> { User user = article.getUser();
+                                                                user.setPassword(null);
+                                                                article.setUser(user);
+                                                                return  article;}).collect(Collectors.toList());
 
         if (articleList == null || articleList.isEmpty()){
             return new ResponseEntity(new CustomErrorType("No data found"),
@@ -82,18 +87,18 @@ public class ArticleController {
         return new ResponseEntity<>(articleList, HttpStatus.OK);
     }
 
-//    @RequestMapping(value = "/tag/{tagName}")
-//    public ResponseEntity showArticlesByTag(@PathVariable String tagName, Model model){
-//        Tag tag = tagRepository.findByName(tagName);
-//        List<Tag> tags = new ArrayList<>();
-//        tags.add(tag);
-//        List<Article> articleList = articleRepository.findByTags(tags);
-//
-//        if (articleList == null || articleList.isEmpty() || articleList.size() < 1){
-//            return new ResponseEntity(new CustomErrorType("No data found"),
-//                    HttpStatus.NOT_FOUND);
-//        }
-//        return new ResponseEntity<>(articleList, HttpStatus.OK);
-//    }
+    @RequestMapping(value = "/tag/{tagName}")
+    public ResponseEntity showArticlesByTag(@PathVariable String tagName, Model model){
+        Tag tag = tagRepository.findByName(tagName);
+        List<Tag> tags = new ArrayList<>();
+        tags.add(tag);
+        List<Article> articleList = articleRepository.findByTags(tags);
+
+        if (articleList == null || articleList.isEmpty() || articleList.size() < 1){
+            return new ResponseEntity(new CustomErrorType("No data found"),
+                    HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(articleList, HttpStatus.OK);
+    }
 
 }

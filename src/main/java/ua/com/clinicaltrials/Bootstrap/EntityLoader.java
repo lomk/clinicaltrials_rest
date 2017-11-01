@@ -5,10 +5,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import ua.com.clinicaltrials.domain.*;
-import ua.com.clinicaltrials.repositories.ArticleRepository;
-import ua.com.clinicaltrials.repositories.CategoryRepository;
-import ua.com.clinicaltrials.repositories.RoleRepository;
-import ua.com.clinicaltrials.repositories.TagRepository;
+import ua.com.clinicaltrials.repositories.*;
 import ua.com.clinicaltrials.services.UserService;
 
 import java.util.ArrayList;
@@ -28,6 +25,8 @@ public class EntityLoader implements ApplicationListener<ContextRefreshedEvent> 
     ArticleRepository articleRepository;
     @Autowired
     CategoryRepository categoryRepository;
+    @Autowired
+    CommentRepository commentRepository;
 
 
     @Override
@@ -77,7 +76,7 @@ public class EntityLoader implements ApplicationListener<ContextRefreshedEvent> 
         article.setDescEn("description");
         article.setDescRu("Описание");
         article.setDescUa("Опис");
-//        article.setTags(tags);
+        article.setTags(tags);
         article.setTitleEn("TITLE");
         article.setTitleRu("Заголовок РУ");
         article.setTitleUa("Заголовок ЮА");
@@ -86,5 +85,10 @@ public class EntityLoader implements ApplicationListener<ContextRefreshedEvent> 
         article.setSeoDescUa("Seo UA");
 
         articleRepository.save(article);
+
+        Comment comment = new Comment();
+        comment.setBody("comment text");
+        comment.setArticle(article);
+        comment.setUser(user);
     }
 }

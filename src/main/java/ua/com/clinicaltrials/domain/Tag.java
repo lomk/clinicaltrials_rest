@@ -1,5 +1,6 @@
 package ua.com.clinicaltrials.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,7 +27,8 @@ public class Tag implements Serializable {
     @Column(name = "name")
     private String name;
 
-//    @ManyToMany(mappedBy = "tags", targetEntity = Article.class)
-//    @OrderBy("dateField ASC")
-//    private List<Article> articles;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "tags", targetEntity = Article.class)
+    @OrderBy("dateField ASC")
+    private List<Article> articles;
 }

@@ -1,5 +1,6 @@
 package ua.com.clinicaltrials.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,12 +30,13 @@ public class Comment implements Serializable {
     private Date dateTimeField;
 
     @ManyToOne
-    @JoinColumn(name = "article_id")
-    private Article article;
-
-    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "article_id")
+    private Article article;
 
 
 }

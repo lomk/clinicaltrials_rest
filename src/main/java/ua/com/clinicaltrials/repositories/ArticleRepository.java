@@ -15,8 +15,8 @@ import java.util.List;
  * Created by Igor on 19-Jul-16.
  */
 public interface ArticleRepository extends JpaRepository<Article, Integer> {
-//    @Query(value = "SELECT a FROM Article a INNER JOIN a.tags c WHERE c IN (:tags) ORDER BY a.dateField")
-//    List<Article> findByTags(@Param("tags")Collection<Tag> tags);
+    @Query(value = "SELECT a FROM Article a INNER JOIN a.tags c WHERE c IN (:tags) ORDER BY a.dateField")
+    List<Article> findByTags(@Param("tags")Collection<Tag> tags);
 
     List<Article> findByCategory(Category category, Pageable pageable);
     List<Article> findByCategoryOrderByDateFieldAsc(Category category);
