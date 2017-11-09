@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Igor on 11-Oct-16.
@@ -52,4 +53,6 @@ public class MedicalInstitution implements Serializable {
     private String receptionPhone;
 
 
+    @OneToMany(mappedBy = "medicalInstitution", targetEntity = MedicalInstitutionDepartment.class)
+    private List<InvestigatorFax> faxList;
 }

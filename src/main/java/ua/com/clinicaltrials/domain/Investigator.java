@@ -3,9 +3,10 @@ package ua.com.clinicaltrials.domain;
 import lombok.Getter;
 import lombok.Setter;
 
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by Igor on 11-Oct-16.
@@ -27,7 +28,7 @@ public class Investigator implements Serializable {
             joinColumns = {@JoinColumn(name = "investigator_id")},
             inverseJoinColumns = {@JoinColumn(name = "academic_degree_id")}
     )
-    private Set<AcademicDegree> academicDegrees;
+    private List<AcademicDegree> academicDegrees;
 
     @Column(name = "first_name_ua")
     private String firstNameUa;
@@ -52,12 +53,12 @@ public class Investigator implements Serializable {
     @Column(name = "birthDate")
     private String birthDate;
 
-//    @OneToMany(mappedBy = "investigator", targetEntity = InvestigatorPhone.class)
-//    private Set<InvestigatorPhone> phoneSet;
-//    @OneToMany(mappedBy = "investigator", targetEntity = InvestigatorPhoneMobile.class)
-//    private Set<InvestigatorPhoneMobile> phoneMobileSet;
-//    @OneToMany(mappedBy = "investigator", targetEntity = InvestigatorFax.class)
-//    private Set<InvestigatorFax> faxSet;
+    @OneToMany(mappedBy = "investigator", targetEntity = InvestigatorPhone.class)
+    private List<InvestigatorPhone> phoneList;
+    @OneToMany(mappedBy = "investigator", targetEntity = InvestigatorPhoneMobile.class)
+    private List<InvestigatorPhoneMobile> phoneMobileList;
+    @OneToMany(mappedBy = "investigator", targetEntity = InvestigatorFax.class)
+    private List<InvestigatorFax> faxList;
 
 
 }

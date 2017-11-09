@@ -24,4 +24,8 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
     List<Article> findByUserOrderByDateFieldAsc(Integer userId);
     List<Article> findAllByOrderByDateFieldDesc();
 
+    List<Article> findAllByTitleRuIsContainingOrderByDateField(String search);
+    List<Article> findAllByTitleUaIsContainingOrderByDateField(String search);
+    List<Article> findAllByTitleEnIsContainingOrderByDateField(String search);
+
 }

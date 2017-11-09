@@ -6,30 +6,26 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ua.com.clinicaltrials.domain.*;
 import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.ArticleRepository;
 import ua.com.clinicaltrials.repositories.CategoryRepository;
 import ua.com.clinicaltrials.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
+
 
 /**
  * Created by Igor on 13-Jul-16.
  */
 @RestController
-@RequestMapping("/article")
+//@RequestMapping("/article")
 public class ArticleController {
     @Autowired
     private ArticleRepository articleRepository;
@@ -38,67 +34,104 @@ public class ArticleController {
     @Autowired
     TagRepository tagRepository;
 
-    @RequestMapping(value = "all/{page}", method = RequestMethod.GET)
-    public ResponseEntity<?> articleList(@PathVariable Integer page) {
+    @RequestMapping(value = "article", method = RequestMethod.GET)
+    public ResponseEntity<?> articleList(
+                                         @RequestParam(value = "search", required = false) Optional<String> search,
+                                         @RequestParam(value = "all", required = false) Optional<Boolean> all,
+                                         @RequestParam(value = "id", required = false) Optional<Integer> id,
+                                         @RequestParam(value = "page", required = false) Optional<Integer> page,
+                                         @RequestParam(value = "lang", required = false) Optional<String> lang,
+                                         @RequestParam(value = "tag", required = false) Optional<List<String>> tags,
+                                         @RequestParam(value = "category", required = false) Optional<String> category
+    ) {
 
-        Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "dateField"));
-        Pageable pageable = new PageRequest(page, 9, sort);
 
-        Page<Article> articlePage = articleRepository.findAll(pageable);
-        System.out.println(articlePage.getContent());
-        List<Article> articleList = articlePage.getContent();
-        articleList = articleList.stream().map(article -> { User user = article.getUser();
-                                                                user.setPassword(null);
-                                                                article.setUser(user);
-                                                                return  article;}).collect(Collectors.toList());
+        if (all.isPresent()
+                && all.get() == true
+                && page.isPresent()
+                && !id.isPresent()
+                && !search.isPresent()
+                && !tags.isPresent()
+                && !category.isPresent()) {
 
-        if (articleList == null || articleList.isEmpty()){
-            return new ResponseEntity(new CustomErrorType("No data found"),
-                    HttpStatus.NOT_FOUND);
+            Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "dateField"));
+            Pageable pageable = new PageRequest(page.get(), 9, sort);
+            Page<Article> articlePage = articleRepository.findAll(pageable);
+            List<Article> articleList = articlePage.getContent();
+
+            if (articleList == null){
+                return new ResponseEntity(new CustomErrorType("No data found"),
+                        HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(articleList, HttpStatus.OK);
         }
-        return new ResponseEntity<>(articleList, HttpStatus.OK);
-    }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getArticle(@PathVariable Integer id){
-        Article article = articleRepository.findOne(id);
-        if (article == null){
-            return new ResponseEntity(new CustomErrorType(
-                    "Article with id " + id + " not found."),
-                    HttpStatus.NOT_FOUND);
+        if (id.isPresent()
+                && !id.get().toString().isEmpty()
+                && !page.isPresent()
+                && !all.isPresent()
+                && !search.isPresent()
+                && !tags.isPresent()
+                && !category.isPresent()) {
+
+            Article article = articleRepository.findOne(id.get());
+            if (article == null){
+                return new ResponseEntity(new CustomErrorType(
+                        "article with id " + id.get() + " not found."),
+                        HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(article, HttpStatus.OK);
         }
-        return new ResponseEntity<>(article, HttpStatus.OK);
-    }
 
-    @RequestMapping(value = "/category/{categoryUrl}/{page}", method = RequestMethod.GET)
-    public ResponseEntity<?> articleList(@PathVariable Integer page, @PathVariable String categoryUrl) {
+        if (category.isPresent()
+                && !category.get().toString().isEmpty()
+                && page.isPresent()
+                && !all.isPresent()
+                && !search.isPresent()
+                && !tags.isPresent()
+                && !id.isPresent()) {
 
-        Category category = categoryRepository.findByUrl(categoryUrl);
+            Category cat = categoryRepository.findByUrl(category.get());
+            Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "dateField"));
+            Pageable pageable = new PageRequest(page.get(), 9, sort);
 
-        Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "dateField"));
-        Pageable pageable = new PageRequest(page, 9, sort);
-
-        List<Article> articleList = articleRepository.findByCategory(category, pageable);
-
-        if (articleList == null || articleList.isEmpty()){
-            return new ResponseEntity(new CustomErrorType("No data found"),
-                    HttpStatus.NOT_FOUND);
+            List<Article> articles = articleRepository.findByCategory(cat, pageable);
+            if (articles == null){
+                return new ResponseEntity(new CustomErrorType(
+                        "article with category " + category.get() + " not found."),
+                        HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(articles, HttpStatus.OK);
         }
-        return new ResponseEntity<>(articleList, HttpStatus.OK);
-    }
 
-    @RequestMapping(value = "/tag/{tagName}")
-    public ResponseEntity showArticlesByTag(@PathVariable String tagName, Model model){
-        Tag tag = tagRepository.findByName(tagName);
-        List<Tag> tags = new ArrayList<>();
-        tags.add(tag);
-        List<Article> articleList = articleRepository.findByTags(tags);
+        if (tags.isPresent()
+                && !tags.get().toString().isEmpty()
+                && !page.isPresent()
+                && !all.isPresent()
+                && !search.isPresent()
+                && !id.isPresent()
+                && !category.isPresent()) {
 
-        if (articleList == null || articleList.isEmpty() || articleList.size() < 1){
-            return new ResponseEntity(new CustomErrorType("No data found"),
-                    HttpStatus.NOT_FOUND);
+            List<Tag> tagList = new ArrayList<>();
+
+            tags.get().forEach(tag -> { try {
+                    tagList.add(tagRepository.findByName(tag));
+            } catch(Exception e){
+                    e.printStackTrace();
+            }
+            });
+            List<Article> articles = articleRepository.findByTags(tagList);
+            if (articles == null){
+                return new ResponseEntity(new CustomErrorType(
+                        "article with id " + id.get() + " not found."),
+                        HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(articles, HttpStatus.OK);
         }
-        return new ResponseEntity<>(articleList, HttpStatus.OK);
+
+        return new ResponseEntity(new CustomErrorType(
+                "Bad parameters"),
+                HttpStatus.NOT_ACCEPTABLE);
     }
 
 }

@@ -1,5 +1,6 @@
 package ua.com.clinicaltrials.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -62,5 +63,9 @@ public class CROUkraine implements Serializable {
     private String emailOfHeadquarter;
     @Column(name="url_of_headquarter")
     private String UrlOfHeadquarter;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "croUkraine")
+    ClinicalStudy clinicalStudy;
 
 }

@@ -1,5 +1,6 @@
 package ua.com.clinicaltrials.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -93,6 +94,10 @@ public class StudyGeneralInformation implements Serializable {
 
     @Column(name = "quantity_of_trial_sites")
     private Integer quantityOfTrialSites;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "studyIdentifier")
+    ClinicalStudy studyGeneralInformation;
 
     /*@ManyToOne
     @JoinColumn(name = "study_conduction_id")

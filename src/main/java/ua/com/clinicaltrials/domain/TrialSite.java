@@ -1,5 +1,6 @@
 package ua.com.clinicaltrials.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -52,4 +53,10 @@ public class TrialSite implements Serializable {
 
     @Column(name = "final_enrollment")
     private Integer finalEnrollment;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "trialSite")
+    ClinicalStudy clinicalStudy;
+
+
 }

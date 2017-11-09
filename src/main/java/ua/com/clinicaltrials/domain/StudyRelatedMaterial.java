@@ -10,7 +10,7 @@ import java.io.Serializable;
  * Created by Igor on 10-Oct-16.
  */
 @Entity
-@Table(name = "material")
+@Table(name = "study_related_material")
 @Getter
 @Setter
 public class StudyRelatedMaterial  implements Serializable {

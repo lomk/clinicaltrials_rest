@@ -10,7 +10,7 @@ import java.io.Serializable;
  * Created by Igor on 09-Oct-16.
  */
 @Entity
-@Table(name = "study_status")
+@Table(name = "terapeutic_area")
 @Getter
 @Setter
 public class TherapeuticArea implements Serializable {

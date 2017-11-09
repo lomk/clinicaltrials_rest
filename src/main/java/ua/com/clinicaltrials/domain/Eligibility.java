@@ -1,5 +1,6 @@
 package ua.com.clinicaltrials.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -48,4 +49,8 @@ public class Eligibility implements Serializable {
     private String exclusionCriteriaRu;
     @Column(name = "exclusion_criteria_en")
     private String exclusionCriteriaEn;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "eligibility")
+    ClinicalStudy clinicalStudy;
 }

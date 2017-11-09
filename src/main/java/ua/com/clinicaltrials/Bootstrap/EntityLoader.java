@@ -90,5 +90,6 @@ public class EntityLoader implements ApplicationListener<ContextRefreshedEvent> 
         comment.setBody("comment text");
         comment.setArticle(article);
         comment.setUser(user);
+
     }
 }

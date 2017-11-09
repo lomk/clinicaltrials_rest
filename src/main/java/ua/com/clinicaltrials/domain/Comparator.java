@@ -34,6 +34,8 @@ public class Comparator implements Serializable {
     @JoinColumn(name = "medical_form_id")
     private MedicalForm medicalForm;
 
+
+
     @ManyToOne
     @JoinColumn(name = "dosage_id")
     private Dosage dosage;

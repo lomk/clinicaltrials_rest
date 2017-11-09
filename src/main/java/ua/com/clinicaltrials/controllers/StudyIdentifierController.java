@@ -3,21 +3,23 @@ package ua.com.clinicaltrials.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import ua.com.clinicaltrials.domain.Category;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import ua.com.clinicaltrials.domain.StudyIdentifier;
 import ua.com.clinicaltrials.errors.CustomErrorType;
-import ua.com.clinicaltrials.repositories.CategoryRepository;
+import ua.com.clinicaltrials.repositories.StudyIdentifierRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-
 @RestController
-public class CategoryController {
+public class StudyIdentifierController {
     @Autowired
-    CategoryRepository categoryRepository;
-
-    @RequestMapping(value = "category", method = RequestMethod.GET)
+    StudyIdentifierRepository studyIdentifierRepository;
+    
+    @RequestMapping(value = "study_identifier", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "search", required = false) Optional<String> search,
             @RequestParam(value = "all", required = false) Optional<Boolean> all,
@@ -28,51 +30,51 @@ public class CategoryController {
 
         if (search.isPresent() && page.isPresent() && lang.isPresent() && !id.isPresent() && !all.isPresent()) {
             if (lang.get().equals("ru")){
-                List<Category> categoryList = categoryRepository.findAllByNameRuContains(search.get());
-                if (categoryList == null){
+                List<StudyIdentifier> studyIdentifierList = studyIdentifierRepository.findAllByNameRuContains(search.get());
+                if (studyIdentifierList == null){
                     return new ResponseEntity(new CustomErrorType("No data found"),
                             HttpStatus.NOT_FOUND);
                 }
-                return new ResponseEntity<>(categoryList, HttpStatus.OK);
+                return new ResponseEntity<>(studyIdentifierList, HttpStatus.OK);
             }
             if (lang.get().equals("ua")){
-                List<Category> categoryList = categoryRepository.findAllByNameUaContains(search.get());
-                if (categoryList == null){
+                List<StudyIdentifier> studyIdentifierList = studyIdentifierRepository.findAllByNameUaContains(search.get());
+                if (studyIdentifierList == null){
                     return new ResponseEntity(new CustomErrorType("No data found"),
                             HttpStatus.NOT_FOUND);
                 }
-                return new ResponseEntity<>(categoryList, HttpStatus.OK);
+                return new ResponseEntity<>(studyIdentifierList, HttpStatus.OK);
             }
             if (lang.get().equals("en")){
-                List<Category> categoryList = categoryRepository.findAllByNameEnContains(search.get());
-                if (categoryList == null){
+                List<StudyIdentifier> studyIdentifierList = studyIdentifierRepository.findAllByNameEnContains(search.get());
+                if (studyIdentifierList == null){
                     return new ResponseEntity(new CustomErrorType("No data found"),
                             HttpStatus.NOT_FOUND);
                 }
-                return new ResponseEntity<>(categoryList, HttpStatus.OK);
+                return new ResponseEntity<>(studyIdentifierList, HttpStatus.OK);
             }
             return new ResponseEntity<>("Bad lang", HttpStatus.OK);
         }
 
         if (all.isPresent() && all.get() == true && page.isPresent() && !id.isPresent() && !search.isPresent()) {
 
-            List<Category> categoryList = categoryRepository.findAll();
-            if (categoryList == null){
+            List<StudyIdentifier> studyIdentifierList = studyIdentifierRepository.findAll();
+            if (studyIdentifierList == null){
                 return new ResponseEntity(new CustomErrorType("No data found"),
                         HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<>(categoryList, HttpStatus.OK);
+            return new ResponseEntity<>(studyIdentifierList, HttpStatus.OK);
         }
 
         if (id.isPresent() && !id.get().toString().isEmpty() && !page.isPresent() && !all.isPresent() && !search.isPresent()) {
             System.out.println(id.get());
-            Category category = categoryRepository.findOne(id.get());
-            if (category == null){
+            StudyIdentifier studyIdentifier = studyIdentifierRepository.findOne(id.get());
+            if (studyIdentifier == null){
                 return new ResponseEntity(new CustomErrorType(
-                    "Category with id " + id.get() + " not found."),
-                    HttpStatus.NOT_FOUND);
+                        "StudyIdentifier with id " + id.get() + " not found."),
+                        HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<>(category, HttpStatus.OK);
+            return new ResponseEntity<>(studyIdentifier, HttpStatus.OK);
         }
 
         return new ResponseEntity(new CustomErrorType(

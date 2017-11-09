@@ -1,5 +1,6 @@
 package ua.com.clinicaltrials.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -64,4 +65,8 @@ public class Sponsor implements Serializable {
     @ManyToOne
     @JoinColumn(name = "country_id")
     private Country country;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "sponsor")
+    ClinicalStudy clinicalStudy;
 }

@@ -1,5 +1,6 @@
 package ua.com.clinicaltrials.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,9 +25,9 @@ public class StudyIdentifier implements Serializable {
     private long sponsorsProtocolNumber;
     @Column(name = "clinical_trialscomua_identifier")
     private long clinicalTrialsComUaIdentifier;
-    @Column(name = "clinical_trialsgov_identifier", nullable = true)
+    @Column(name = "clinical_trialsgov_identifier")
     private long clinicalTrialsGovIdentifier;
-    @Column(name = "eudra_ct_number", nullable = true)
+    @Column(name = "eudra_ct_number")
     private long eudraCTNumber;
     @ManyToOne
     @JoinColumn(name = "moh_of_ukraine_order_id")
@@ -65,4 +66,8 @@ public class StudyIdentifier implements Serializable {
 
     @Column(name = "last_update_date")
     private String lastUpdateDate;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "studyIdentifier")
+    ClinicalStudy clinicalStudy;
 }
