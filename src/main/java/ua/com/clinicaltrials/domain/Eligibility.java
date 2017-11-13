@@ -51,6 +51,7 @@ public class Eligibility implements Serializable {
     private String exclusionCriteriaEn;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "eligibility")
+    @OneToOne
+    @JoinColumn(name = "clinical_study_id")
     ClinicalStudy clinicalStudy;
 }

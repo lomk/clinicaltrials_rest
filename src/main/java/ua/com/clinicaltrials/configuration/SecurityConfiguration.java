@@ -27,7 +27,7 @@ import org.springframework.web.filter.CorsFilter;
  * Created by Igor on 09-Jun-16.
  */
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @EnableAutoConfiguration
 @AutoConfigureAfter({RepositoryConfiguration.class})
 @EnableGlobalMethodSecurity(prePostEnabled = true)

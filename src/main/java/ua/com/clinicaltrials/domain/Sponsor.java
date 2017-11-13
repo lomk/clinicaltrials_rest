@@ -67,6 +67,7 @@ public class Sponsor implements Serializable {
     private Country country;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "sponsor")
+    @OneToOne
+    @JoinColumn(name = "clinical_study_id")
     ClinicalStudy clinicalStudy;
 }

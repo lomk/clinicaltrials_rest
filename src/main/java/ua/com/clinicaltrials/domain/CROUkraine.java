@@ -65,7 +65,8 @@ public class CROUkraine implements Serializable {
     private String UrlOfHeadquarter;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "croUkraine")
+    @OneToOne
+    @JoinColumn(name = "clinical_study_id")
     ClinicalStudy clinicalStudy;
 
 }

@@ -68,6 +68,7 @@ public class StudyIdentifier implements Serializable {
     private String lastUpdateDate;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "studyIdentifier")
+    @OneToOne
+    @JoinColumn(name = "clinical_study_id")
     ClinicalStudy clinicalStudy;
 }

@@ -96,8 +96,9 @@ public class StudyGeneralInformation implements Serializable {
     private Integer quantityOfTrialSites;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "studyIdentifier")
-    ClinicalStudy studyGeneralInformation;
+    @OneToOne
+    @JoinColumn(name = "clinical_study_id")
+    ClinicalStudy clinicalStudy;
 
     /*@ManyToOne
     @JoinColumn(name = "study_conduction_id")

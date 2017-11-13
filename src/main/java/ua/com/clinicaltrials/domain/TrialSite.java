@@ -55,7 +55,8 @@ public class TrialSite implements Serializable {
     private Integer finalEnrollment;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "trialSite")
+    @OneToOne
+    @JoinColumn(name = "clinical_study_id")
     ClinicalStudy clinicalStudy;
 
 
