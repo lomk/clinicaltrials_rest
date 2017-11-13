@@ -64,7 +64,7 @@ public class CategoryController {
         }
 
         if (id.isPresent() && !id.get().toString().isEmpty() && !page.isPresent() && !search.isPresent()) {
-            System.out.println(id.get());
+
             Category category = categoryRepository.findOne(id.get());
             if (category == null){
                 try {
