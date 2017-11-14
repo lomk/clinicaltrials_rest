@@ -30,7 +30,7 @@ public class ClinicalStudyController {
     @Autowired
     TrialSiteRepository trialSiteRepository;
     @Autowired
-    CROUkraineRepository croUkraineRepository;
+    CroUkraineRepository croUkraineRepository;
     @Autowired
     SponsorRepository sponsorRepository;
     
@@ -120,10 +120,10 @@ public class ClinicalStudyController {
     }
 
     @RequestMapping(value = "croUkraine/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getByCROUkraine(@PathVariable("id") Integer id) {
+    public ResponseEntity<?> getByCroUkraine(@PathVariable("id") Integer id) {
 
-        CROUkraine currentCROUkraine = croUkraineRepository.findOne(id);
-        ClinicalStudy clinicalStudy = clinicalStudyRepository.findByCroUkraine(currentCROUkraine);
+        CroUkraine currentCroUkraine = croUkraineRepository.findOne(id);
+        ClinicalStudy clinicalStudy = clinicalStudyRepository.findByCroUkraine(currentCroUkraine);
         if (clinicalStudy == null){
             return new ResponseEntity<>(new CustomErrorType(
                     "ClinicalStudy with croUkraine id " + id + " not found."),

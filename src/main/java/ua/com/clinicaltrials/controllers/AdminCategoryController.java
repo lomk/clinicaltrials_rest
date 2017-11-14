@@ -21,13 +21,11 @@ public class AdminCategoryController {
     @Autowired
     CategoryRepository categoryRepository;
 
-
-
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody Category category){
         Category currentCategory = categoryRepository.findOne(id);
         if (currentCategory == null){
-            return new ResponseEntity(new CustomErrorType(
+            return new ResponseEntity<>(new CustomErrorType(
                     "Unable to upate. Category with id " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }
@@ -43,7 +41,7 @@ public class AdminCategoryController {
     public ResponseEntity<?> add(@RequestBody Category category){
 
         if (category == null){
-            return new ResponseEntity(new CustomErrorType("No category"),HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(new CustomErrorType("No category"),HttpStatus.NOT_ACCEPTABLE);
         }
         if (    category.getNameUa() == null ||
                 category.getNameEn() == null ||
@@ -55,7 +53,7 @@ public class AdminCategoryController {
             return new ResponseEntity(new CustomErrorType("No category name"),HttpStatus.NOT_ACCEPTABLE);
         }
         if (categoryRepository.findByUrl(category.getUrl()) != null || !category.getUrl().isEmpty()){
-            return new ResponseEntity(new CustomErrorType("Unable to create. A category with URL " +
+            return new ResponseEntity<>(new CustomErrorType("Unable to create. A category with URL " +
                     category.getUrl() + " already exist."),HttpStatus.CONFLICT);
         }
         categoryRepository.save(category);
@@ -66,7 +64,7 @@ public class AdminCategoryController {
     public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
         Category category = categoryRepository.findOne(id);
         if (category == null ){
-            return new ResponseEntity(new CustomErrorType(
+            return new ResponseEntity<>(new CustomErrorType(
                     "Category with id " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }

@@ -14,7 +14,7 @@ import java.util.List;
 @Table(name = "mof_ukraine_order")
 @Getter
 @Setter
-public class MOHofUkraineOrder implements Serializable {
+public class MohOfUkraineOrder implements Serializable {
     private static final long serialVersionUID = -1000119475147222957L;
 
     @Id

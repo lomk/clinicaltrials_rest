@@ -7,19 +7,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ua.com.clinicaltrials.domain.Region;
+import ua.com.clinicaltrials.domain.CroUkraine;
 import ua.com.clinicaltrials.errors.CustomErrorType;
-import ua.com.clinicaltrials.repositories.RegionRepository;
+import ua.com.clinicaltrials.repositories.CroUkraineRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class RegionController {
+public class CroUkraineController {
     @Autowired
-    RegionRepository regionRepository;
+    CroUkraineRepository croUkraineRepository;
 
-    @RequestMapping(value = "region", method = RequestMethod.GET)
+    @RequestMapping(value = "croUkraine", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
             @RequestParam(value = "page", required = false) Optional<Integer> page
@@ -27,27 +27,27 @@ public class RegionController {
 
         if (page.isPresent() && !id.isPresent()) {
 
-            List<Region> regionList = regionRepository.findAll();
-            if (regionList == null){
+            List<CroUkraine> croUkraineList = croUkraineRepository.findAll();
+            if (croUkraineList == null){
                 return new ResponseEntity<>(new CustomErrorType("No data found"),
                         HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<>(regionList, HttpStatus.OK);
+            return new ResponseEntity<>(croUkraineList, HttpStatus.OK);
         }
 
         if (id.isPresent() && !id.get().toString().isEmpty() && !page.isPresent()) {
 
-            Region region = regionRepository.findOne(id.get());
-            if (region == null){
+            CroUkraine croUkraine = croUkraineRepository.findOne(id.get());
+            if (croUkraine == null){
                 try {
                     return new ResponseEntity<>(new CustomErrorType(
-                            "Region with id " + id.get() + " not found."),
+                            "CROUkraine with id " + id.get() + " not found."),
                             HttpStatus.NOT_FOUND);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
             }
-            return new ResponseEntity<>(region, HttpStatus.OK);
+            return new ResponseEntity<>(croUkraine, HttpStatus.OK);
         }
 
         return new ResponseEntity<>(new CustomErrorType(
