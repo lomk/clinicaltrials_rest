@@ -7,55 +7,49 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import ua.com.clinicaltrials.domain.CroUkraine;
 import ua.com.clinicaltrials.errors.CustomErrorType;
+import ua.com.clinicaltrials.repositories.CroUkraineRepository;
 
-public class AdminDosageController {
+public class AdminCroUkraineController {
     @Autowired
-    DosageRepository dosageRepository;
+    CroUkraineRepository croUkraineRepository;
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody Dosage dosage){
-        Dosage currentDosage = dosageRepository.findOne(id);
-        if (currentDosage == null){
+    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody CroUkraine croUkraine){
+        CroUkraine currentCroUkraine = croUkraineRepository.findOne(id);
+        if (currentCroUkraine == null){
             return new ResponseEntity<>(new CustomErrorType(
-                    "Unable to upate. Dosage with id " + id + " not found."),
+                    "Unable to upate. CroUkraine with id " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }
 
-        dosageRepository.save(currentDosage);
-        return new ResponseEntity<>(currentDosage, HttpStatus.OK);
+        croUkraineRepository.save(currentCroUkraine);
+        return new ResponseEntity<>(currentCroUkraine, HttpStatus.OK);
     }
 
     @RequestMapping(value="add", method=RequestMethod.POST, produces = "application/json", consumes = "application/json")
-    public ResponseEntity<?> add(@RequestBody Dosage dosage){
+    public ResponseEntity<?> add(@RequestBody CroUkraine croUkraine){
 
-        if (dosage == null){
-            return new ResponseEntity<>(new CustomErrorType("No dosage"),HttpStatus.NOT_ACCEPTABLE);
-        }
-        if (dosage.getNameUa() == null ||
-                dosage.getNameEn() == null ||
-                dosage.getNameRu() == null ||
-                dosage.getNameUa().isEmpty() ||
-                dosage.getNameEn().isEmpty() ||
-                dosage.getNameRu().isEmpty()
-                ) {
-            return new ResponseEntity(new CustomErrorType("No dosage name"),HttpStatus.NOT_ACCEPTABLE);
+        if (croUkraine == null){
+            return new ResponseEntity<>(new CustomErrorType("No croUkraine"),HttpStatus.NOT_ACCEPTABLE);
         }
 
-        dosageRepository.save(dosage);
-        return new ResponseEntity<>(dosage, HttpStatus.CREATED);
+
+        croUkraineRepository.save(croUkraine);
+        return new ResponseEntity<>(croUkraine, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
-        Dosage dosage = dosageRepository.findOne(id);
-        if (dosage == null ){
+        CroUkraine croUkraine = croUkraineRepository.findOne(id);
+        if (croUkraine == null ){
             return new ResponseEntity<>(new CustomErrorType(
-                    "Dosage with id " + id + " not found."),
+                    "CroUkraine with id " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }
         try {
-            dosageRepository.delete(dosage);
+            croUkraineRepository.delete(croUkraine);
         } catch (Exception e){
             return new ResponseEntity<>(new CustomErrorType(
                     "SQL error."),

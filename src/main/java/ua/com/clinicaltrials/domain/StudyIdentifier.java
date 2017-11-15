@@ -31,7 +31,7 @@ public class StudyIdentifier implements Serializable {
     private long eudraCTNumber;
     @ManyToOne
     @JoinColumn(name = "moh_of_ukraine_order_id")
-    private MohOfUkraineOrder mOHofUkraineOrder;
+    private MohOfUkraineOrder MohOfUkraineOrder;
     @ManyToOne
     @JoinColumn(name = "country_id")
     private Country sponsorCountry;

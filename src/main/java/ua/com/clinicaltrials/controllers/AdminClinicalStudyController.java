@@ -20,7 +20,7 @@ public class AdminClinicalStudyController {
         ClinicalStudy currentClinicalStudy = clinicalStudyRepository.findOne(id);
         if (currentClinicalStudy == null){
             return new ResponseEntity<>(new CustomErrorType(
-                    "Unable to upate. ClinicalStudy with id " + id + " not found."),
+                    "Unable to update. ClinicalStudy with id " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }
 
@@ -34,14 +34,14 @@ public class AdminClinicalStudyController {
         if (clinicalStudy == null){
             return new ResponseEntity<>(new CustomErrorType("No clinicalStudy"),HttpStatus.NOT_ACCEPTABLE);
         }
-        if (clinicalStudy.getNameUa() == null ||
-                clinicalStudy.getNameEn() == null ||
-                clinicalStudy.getNameRu() == null ||
-                clinicalStudy.getNameUa().isEmpty() ||
-                clinicalStudy.getNameEn().isEmpty() ||
-                clinicalStudy.getNameRu().isEmpty()
+        if (clinicalStudy.getStudyIdentifier() == null ||
+                clinicalStudy.getStudyGeneralInformation() == null ||
+                clinicalStudy.getCroUkraine() == null ||
+                clinicalStudy.getEligibility() == null ||
+                clinicalStudy.getSponsor() == null ||
+                clinicalStudy.getTrialSite() == null
                 ) {
-            return new ResponseEntity(new CustomErrorType("No clinicalStudy name"),HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity(new CustomErrorType("Wrong data"),HttpStatus.NOT_ACCEPTABLE);
         }
 
         clinicalStudyRepository.save(clinicalStudy);

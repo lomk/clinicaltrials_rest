@@ -42,7 +42,7 @@ public class ClinicalStudy implements Serializable {
 
     @OneToOne(mappedBy = "clinicalStudy", cascade = CascadeType.ALL,
             fetch = FetchType.LAZY, optional = false)
-    CROUkraine croUkraine;
+    CroUkraine croUkraine;
 
     @OneToOne(mappedBy = "clinicalStudy", cascade = CascadeType.ALL,
             fetch = FetchType.LAZY, optional = false)
