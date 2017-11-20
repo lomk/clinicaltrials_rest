@@ -28,11 +28,6 @@ public class MedicalInstitutionDepartment implements Serializable {
     @Column(name = "name_en")
     private String nameEn;
 
-    @ManyToOne
-    @JoinColumn(name = "medical_institution_id")
-    private MedicalInstitution medicalInstitution;
-
-
     @Column(name = "department_lead_ua")
     private String departmentLeadUa;
     @Column(name = "department_lead_ru")
@@ -43,4 +38,7 @@ public class MedicalInstitutionDepartment implements Serializable {
     @Column(name = "phone")
     private String phone;
 
+    @ManyToOne
+    @JoinColumn(name = "medical_institution_id")
+    private MedicalInstitution medicalInstitution;
 }

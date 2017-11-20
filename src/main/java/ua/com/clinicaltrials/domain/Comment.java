@@ -25,10 +25,12 @@ public class Comment implements Serializable {
 
     @Column(name = "body", nullable = false, length = 2000)
     private String body;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date_field")
     private Date dateTimeField;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

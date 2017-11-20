@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/admin/")
 public class AcceptHealthyVolunteersController {
     @Autowired
     AcceptHealthyVolunteersRepository acceptHealthyVolunteersRepository;

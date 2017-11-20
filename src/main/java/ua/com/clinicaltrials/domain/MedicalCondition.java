@@ -36,11 +36,11 @@ public class MedicalCondition implements Serializable {
     private String shortDescriptionEn;
 
     @Column(name = "full_description_ua")
-    private String full_descriptionUa;
+    private String fullDescriptionUa;
     @Column(name = "full_description_ru")
-    private String full_descriptionRu;
+    private String fullDescriptionRu;
     @Column(name = "full_description_en")
-    private String full_descriptionEn;
+    private String fullDescriptionEn;
 
     @ManyToOne
     @JoinColumn(name = "therapeutic_area_id")

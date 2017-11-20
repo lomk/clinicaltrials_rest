@@ -27,9 +27,7 @@ public class StudyGeneralInformation implements Serializable {
     @JoinColumn(name = "therapeutic_area_id")
     private TherapeuticArea therapeuticArea;*/
 
-    @ManyToOne
-    @JoinColumn(name = "medical_condition_id")
-    private MedicalCondition medicalCondition;
+
 
     @Column(name = "protocol_title_ua")
     private String protocolTitleUa;
@@ -55,6 +53,10 @@ public class StudyGeneralInformation implements Serializable {
     private String purposeRu;
     @Column(name = "purpose_en")
     private String purposeEn;
+
+    @ManyToOne
+    @JoinColumn(name = "medical_condition_id")
+    private MedicalCondition medicalCondition;
 
     @ManyToOne
     @JoinColumn(name = "phase_id")

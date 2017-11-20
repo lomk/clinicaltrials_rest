@@ -16,7 +16,6 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/admin/")
 public class AcademicDegreeController {
 
     @Autowired

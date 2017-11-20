@@ -52,7 +52,9 @@ public class MedicalInstitution implements Serializable {
     @Column(name = "reception_phone")
     private String receptionPhone;
 
+    @Column(name = "fax")
+    private String fax;
 
-    @OneToMany(mappedBy = "medicalInstitution", targetEntity = MedicalInstitutionDepartment.class)
-    private List<InvestigatorFax> faxList;
+//    @OneToMany(mappedBy = "medicalInstitution", targetEntity = MedicalInstitutionDepartment.class)
+//    private List<InvestigatorFax> faxList;
 }

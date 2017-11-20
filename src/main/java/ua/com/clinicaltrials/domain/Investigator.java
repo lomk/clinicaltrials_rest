@@ -23,13 +23,6 @@ public class Investigator implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @ManyToMany
-    @JoinTable(name = "investigator_degree",
-            joinColumns = {@JoinColumn(name = "investigator_id")},
-            inverseJoinColumns = {@JoinColumn(name = "academic_degree_id")}
-    )
-    private List<AcademicDegree> academicDegrees;
-
     @Column(name = "first_name_ua")
     private String firstNameUa;
     @Column(name = "first_name_ru")
@@ -53,10 +46,19 @@ public class Investigator implements Serializable {
     @Column(name = "birthDate")
     private String birthDate;
 
+    @ManyToMany
+    @JoinTable(name = "investigator_degree",
+            joinColumns = {@JoinColumn(name = "investigator_id")},
+            inverseJoinColumns = {@JoinColumn(name = "academic_degree_id")}
+    )
+    private List<AcademicDegree> academicDegrees;
+
     @OneToMany(mappedBy = "investigator", targetEntity = InvestigatorPhone.class)
     private List<InvestigatorPhone> phoneList;
+
     @OneToMany(mappedBy = "investigator", targetEntity = InvestigatorPhoneMobile.class)
     private List<InvestigatorPhoneMobile> phoneMobileList;
+
     @OneToMany(mappedBy = "investigator", targetEntity = InvestigatorFax.class)
     private List<InvestigatorFax> faxList;
 

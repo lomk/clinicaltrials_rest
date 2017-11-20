@@ -1,5 +1,6 @@
 package ua.com.clinicaltrials.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +22,7 @@ public class InvestigatorPhone implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "investigator_id")
     private Investigator investigator;

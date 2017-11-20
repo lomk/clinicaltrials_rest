@@ -22,6 +22,9 @@ public class InvestigatorFax implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @Column(name = "phone")
+    private String phone;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "investigator_id")
@@ -32,6 +35,4 @@ public class InvestigatorFax implements Serializable {
     @JoinColumn(name = "city_id")
     private City city;
 
-    @Column(name = "phone")
-    private String phone;
 }

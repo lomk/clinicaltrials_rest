@@ -1,5 +1,7 @@
 package ua.com.clinicaltrials.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,8 +27,12 @@ public class User implements Serializable {
     private Integer id;
     @Column(name = "username")
     private String username;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password")
     private String password;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password_confirm")
     private String passwordConfirm;
 
