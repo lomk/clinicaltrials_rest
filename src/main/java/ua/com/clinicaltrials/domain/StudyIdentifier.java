@@ -53,7 +53,7 @@ public class StudyIdentifier implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "study_tatus_id")
-    private Country studyStatus;
+    private StudyStatus studyStatus;
 
     @Column(name = "completition_date")
     private String comletitionDate;

@@ -1,6 +1,10 @@
 package ua.com.clinicaltrials.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +31,12 @@ public class TrialSiteController {
 
         if (page.isPresent() && !id.isPresent()) {
 
-            List<TrialSite> trialSiteList = trialSiteRepository.findAll();
+            Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "id"));
+            Pageable pageable = new PageRequest(page.get(), 9, sort);
+            Page<TrialSite> trialSitePage = trialSiteRepository.findAll(pageable);
+            Integer pagesCount = trialSitePage.getTotalPages();
+            List<TrialSite> trialSiteList = trialSitePage.getContent();
+
             if (trialSiteList == null){
                 return new ResponseEntity<>(new CustomErrorType("No data found"),
                         HttpStatus.NOT_FOUND);

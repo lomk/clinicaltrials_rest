@@ -52,7 +52,7 @@ public class ArticleController {
             Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "dateField"));
             Pageable pageable = new PageRequest(page.get(), 9, sort);
             Page<Article> articlePage = articleRepository.findAll(pageable);
-            Integer pagesCount = articlePage.getTotalPages();
+
             List<Article> articleList = articlePage.getContent();
 
             if (articleList == null){
