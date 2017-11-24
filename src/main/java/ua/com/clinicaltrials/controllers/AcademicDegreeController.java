@@ -24,10 +24,10 @@ public class AcademicDegreeController {
     @RequestMapping(value = "academicDegree", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
-            @RequestParam(value = "page", required = false) Optional<Integer> page
+            @RequestParam(value = "page", required = false) Optional<String> page
     ) {
 
-        if (page.isPresent() && !id.isPresent()) {
+        if (page.isPresent() && page.get().contains("all") && !id.isPresent()) {
 
             List<AcademicDegree> academicDegreeList = academicDegreeRepository.findAll();
             if (academicDegreeList == null){

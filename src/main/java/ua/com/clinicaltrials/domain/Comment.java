@@ -40,5 +40,4 @@ public class Comment implements Serializable {
     @JoinColumn(name = "article_id")
     private Article article;
 
-
 }

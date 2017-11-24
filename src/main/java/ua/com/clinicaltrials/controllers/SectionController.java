@@ -19,15 +19,14 @@ public class SectionController {
     @Autowired
     SectionRepositoty sectionRepository;
 
-
-
     @RequestMapping(value = "section", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
-            @RequestParam(value = "page", required = false) Optional<Integer> page
+            @RequestParam(value = "page", required = false) Optional<Integer> page,
+            @RequestParam(value = "menu", required = false) Optional<Integer> menu
     ) {
 
-        if (page.isPresent() && !id.isPresent()) {
+        if (page.isPresent() && !id.isPresent() && !menu.isPresent()) {
 
             List<Section> sectionList = sectionRepository.findAll();
             if (sectionList == null){
@@ -37,7 +36,16 @@ public class SectionController {
             return new ResponseEntity<>(sectionList, HttpStatus.OK);
         }
 
-        if (id.isPresent() && !id.get().toString().isEmpty() && !page.isPresent()) {
+        if (menu.isPresent() && !menu.get().toString().isEmpty() && !page.isPresent() && !id.isPresent()) {
+            List<Section> sectionList = sectionRepository.findByMenu(menu.get());
+            if (sectionList == null){
+                return new ResponseEntity<>(new CustomErrorType("No data found"),
+                        HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(sectionList, HttpStatus.OK);
+        }
+
+        if (id.isPresent() && !id.get().toString().isEmpty() && !page.isPresent() && !menu.isPresent()) {
 
             Section section = sectionRepository.findOne(id.get());
             if (section == null){
