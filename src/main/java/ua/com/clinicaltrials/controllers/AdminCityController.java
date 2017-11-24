@@ -10,7 +10,7 @@ import ua.com.clinicaltrials.repositories.CityRepository;
 
 @RestController
 @RequestMapping("/admin/city")
-public class AdminCityContoller {
+public class AdminCityController {
 
     @Autowired
     CityRepository cityRepository;
