@@ -1,25 +1,10 @@
 package ua.com.clinicaltrials.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-
-/**
- * Created by Igor on 19-Jul-16.
- */
-@Entity
-@Table(name = "article")
-@Getter
-@Setter
-public class Article implements Serializable {
-    private static final long serialVersionUID = -1000119478147250324L;
-
+public class AboutUsArticle {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -70,15 +55,8 @@ public class Article implements Serializable {
     private String imgUrl;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
-
-    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany
-    @JoinColumn(name = "tag_id")
-    private List<Tag> tags ;
 
 }

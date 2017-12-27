@@ -41,9 +41,9 @@ import org.springframework.web.filter.CorsFilter;
         "ua.com.clinicaltrials.validator"})
 
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
     @Autowired
     UserDetailsService userDetailsService;
-
     @Autowired
     CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     @Autowired
@@ -52,7 +52,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     AccessDeniedHandler accessDeniedHandler;
     @Autowired
     CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
