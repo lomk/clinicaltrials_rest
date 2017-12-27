@@ -9,7 +9,7 @@ import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.RegionRepository;
 
 @RestController
-@RequestMapping("/admin/")
+@RequestMapping("/admin/region")
 public class AdminRegionController {
     @Autowired
     RegionRepository regionRepository;

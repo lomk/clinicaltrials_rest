@@ -9,7 +9,7 @@ import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.MohOfUkraineOrderRepository;
 
 @RestController
-@RequestMapping("/admin/")
+@RequestMapping("/admin/moh-of-ukraine-order")
 public class AdminMohOfUkraineOrderControlller {
     @Autowired
     MohOfUkraineOrderRepository mohOfUkraineOrderRepository;

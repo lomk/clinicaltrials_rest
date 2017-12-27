@@ -9,7 +9,7 @@ import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.EligibilityRepository;
 
 @RestController
-@RequestMapping("/admin/")
+@RequestMapping("/admin/eligibility")
 public class AdminEligibilityController {
     @Autowired
     EligibilityRepository eligibilityRepository;

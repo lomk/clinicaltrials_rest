@@ -64,7 +64,6 @@ public class AdminArticleController {
 
         article.setUser(user);
 
-        article.setRating((long) 0);
         article.setDateField(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
 
         articleRepository.save(article);

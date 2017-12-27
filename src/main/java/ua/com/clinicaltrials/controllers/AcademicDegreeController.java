@@ -21,7 +21,7 @@ public class AcademicDegreeController {
     @Autowired
     AcademicDegreeRepository academicDegreeRepository;
 
-    @RequestMapping(value = "academicDegree", method = RequestMethod.GET)
+    @RequestMapping(value = "academic-degree", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
             @RequestParam(value = "page", required = false) Optional<String> page

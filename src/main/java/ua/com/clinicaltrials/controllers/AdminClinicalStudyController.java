@@ -9,7 +9,7 @@ import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.ClinicalStudyRepository;
 
 @RestController
-@RequestMapping("/admin/")
+@RequestMapping("/admin/clinical-study")
 public class AdminClinicalStudyController {
     @Autowired
     ClinicalStudyRepository clinicalStudyRepository;

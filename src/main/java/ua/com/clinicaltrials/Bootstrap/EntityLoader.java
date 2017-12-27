@@ -67,7 +67,6 @@ public class EntityLoader implements ApplicationListener<ContextRefreshedEvent> 
 
         Article article = new Article();
         article.setDateField(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
-        article.setRating((long) 0);
         article.setUser(userService.findByUsername("Admin"));
         article.setCategory(category);
         article.setBodyEn("text ");

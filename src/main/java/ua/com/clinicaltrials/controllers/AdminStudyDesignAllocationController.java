@@ -9,7 +9,7 @@ import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.StudyDesignAllocationRepository;
 
 @RestController
-@RequestMapping("/admin/")
+@RequestMapping("/admin/study-design-allocation-controller")
 public class AdminStudyDesignAllocationController {
     @Autowired
     StudyDesignAllocationRepository studyDesignAllocationRepository;

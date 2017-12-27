@@ -9,7 +9,7 @@ import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.GenderRepository;
 
 @RestController
-@RequestMapping("/admin/")
+@RequestMapping("/admin/gender")
 public class AdminGenderController {
     @Autowired
     GenderRepository genderRepository;

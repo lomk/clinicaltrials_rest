@@ -9,7 +9,7 @@ import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.PhaseRepository;
 
 @RestController
-@RequestMapping("/admin/")
+@RequestMapping("/admin/phase")
 public class AdminPhaseController {
     @Autowired
     PhaseRepository phaseRepository;

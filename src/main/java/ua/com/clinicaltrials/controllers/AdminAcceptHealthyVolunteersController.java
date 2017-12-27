@@ -9,6 +9,7 @@ import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.AcceptHealthyVolunteersRepository;
 
 @RestController
+@RequestMapping("/admin/accept-healty-volunteers/")
 public class AdminAcceptHealthyVolunteersController {
     @Autowired
     AcceptHealthyVolunteersRepository acceptHealthyVolunteersRepository;

@@ -9,7 +9,7 @@ import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.PhoneMobileCodeRepository;
 
 @RestController
-@RequestMapping("/admin/")
+@RequestMapping("/admin/phone-mobile-code-controller")
 public class AdminPhoneMobileCodeController {
     @Autowired
     PhoneMobileCodeRepository phoneMobileCodeRepository;

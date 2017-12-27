@@ -9,7 +9,7 @@ import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.StudyDesignEndpointClassificationRepository;
 
 @RestController
-@RequestMapping("/admin/")
+@RequestMapping("/admin/study-design-endpoint-classification")
 public class AdminStudyDesignEndpointClassificationController {
     @Autowired
     StudyDesignEndpointClassificationRepository cityRepository;

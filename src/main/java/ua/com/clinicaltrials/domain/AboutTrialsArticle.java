@@ -1,9 +1,16 @@
 package ua.com.clinicaltrials.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+@Entity
+@Table(name = "about_trials_article")
+@Getter
+@Setter
 public class AboutTrialsArticle {
     @Id
     @Column(name = "id", nullable = false)

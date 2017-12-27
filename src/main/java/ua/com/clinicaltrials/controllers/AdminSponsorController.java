@@ -9,7 +9,7 @@ import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.SponsorRepository;
 
 @RestController
-@RequestMapping("/admin/")
+@RequestMapping("/admin/sponsor")
 public class AdminSponsorController {
     @Autowired
     SponsorRepository sponsorRepository;

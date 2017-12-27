@@ -19,7 +19,7 @@ public class AcceptHealthyVolunteersController {
     @Autowired
     AcceptHealthyVolunteersRepository acceptHealthyVolunteersRepository;
 
-    @RequestMapping(value = "acceptHealthyVolunteers", method = RequestMethod.GET)
+    @RequestMapping(value = "accept-healty-volunteers", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
             @RequestParam(value = "page", required = false) Optional<Integer> page
