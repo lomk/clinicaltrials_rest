@@ -9,7 +9,7 @@ import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.StudyDesignTimePerspectiveRepository;
 
 @RestController
-@RequestMapping("/admin/")
+@RequestMapping("/admin/study-design-time-perspective")
 public class AdminStudyDesignTimePerspectiveController {
     @Autowired
     StudyDesignTimePerspectiveRepository studyDesignTimePerspectiveRepository;

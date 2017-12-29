@@ -9,7 +9,7 @@ import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.ComparatorRepository;
 
 @RestController
-@RequestMapping("/admin/")
+@RequestMapping("/admin/comparator")
 public class AdninComparatorController {
     @Autowired
     ComparatorRepository comparatorRepository;
