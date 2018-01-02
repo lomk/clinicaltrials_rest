@@ -19,7 +19,7 @@ public class PhoneMobileCodeController {
     @Autowired
     PhoneMobileCodeRepository phoneMobileCodeRepository;
 
-    @RequestMapping(value = "phoneMobileCode", method = RequestMethod.GET)
+    @RequestMapping(value = "phone-mobile-code", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
             @RequestParam(value = "page", required = false) Optional<Integer> page

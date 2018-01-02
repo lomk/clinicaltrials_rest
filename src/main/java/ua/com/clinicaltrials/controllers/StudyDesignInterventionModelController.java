@@ -19,7 +19,7 @@ public class StudyDesignInterventionModelController {
     @Autowired
     StudyDesignInterventionModelRepository studyDesignInterventionModelRepository;
 
-    @RequestMapping(value = "studyDesignInterventionModel", method = RequestMethod.GET)
+    @RequestMapping(value = "study-design-intervention-model", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
             @RequestParam(value = "page", required = false) Optional<Integer> page

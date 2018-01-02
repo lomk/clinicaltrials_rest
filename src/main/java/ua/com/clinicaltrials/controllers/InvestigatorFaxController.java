@@ -19,7 +19,7 @@ public class InvestigatorFaxController {
     @Autowired
     InvestigatorFaxRepository investigatorFaxRepository;
 
-    @RequestMapping(value = "investigatorFax", method = RequestMethod.GET)
+    @RequestMapping(value = "investigator-fax", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
             @RequestParam(value = "page", required = false) Optional<Integer> page

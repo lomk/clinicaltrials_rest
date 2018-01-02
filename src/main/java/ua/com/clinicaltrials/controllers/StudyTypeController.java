@@ -19,7 +19,7 @@ public class StudyTypeController {
     @Autowired
     StudyTypeRepository studyTypeRepository;
 
-    @RequestMapping(value = "studyType", method = RequestMethod.GET)
+    @RequestMapping(value = "study-type", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
             @RequestParam(value = "page", required = false) Optional<Integer> page

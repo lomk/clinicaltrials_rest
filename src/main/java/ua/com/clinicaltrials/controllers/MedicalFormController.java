@@ -19,7 +19,7 @@ public class MedicalFormController {
     @Autowired
     MedicalFormRepository medicalFormRepository;
 
-    @RequestMapping(value = "medicalForm", method = RequestMethod.GET)
+    @RequestMapping(value = "medical-form", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
             @RequestParam(value = "page", required = false) Optional<Integer> page

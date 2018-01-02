@@ -19,7 +19,7 @@ public class MedicalInstitutionDepartmentController {
     @Autowired
     MedicalInstitutionDepartmentRepository medicalInstitutionDepartmentRepository;
 
-    @RequestMapping(value = "medicalInstitutionDepartment", method = RequestMethod.GET)
+    @RequestMapping(value = "medical-institution-department", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
             @RequestParam(value = "page", required = false) Optional<Integer> page

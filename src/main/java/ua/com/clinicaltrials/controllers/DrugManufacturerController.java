@@ -19,7 +19,7 @@ public class DrugManufacturerController {
     @Autowired
     DrugManufacturerRepository drugManufacturerRepository;
 
-    @RequestMapping(value = "drugManufacturer", method = RequestMethod.GET)
+    @RequestMapping(value = "drug-manufacturer", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
             @RequestParam(value = "page", required = false) Optional<Integer> page

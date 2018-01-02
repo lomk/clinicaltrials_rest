@@ -19,7 +19,7 @@ public class StudyDesignTimePerspectiveController {
     @Autowired
     StudyDesignTimePerspectiveRepository studyDesignTimePerspectiveRepository;
 
-    @RequestMapping(value = "studyDesignTimePerspective", method = RequestMethod.GET)
+    @RequestMapping(value = "study-designTime-perspective", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
             @RequestParam(value = "page", required = false) Optional<Integer> page

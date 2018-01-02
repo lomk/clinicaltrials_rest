@@ -19,7 +19,7 @@ public class InvestigationalProductController {
     @Autowired
     InvestigationalProductRepository investigationalProductRepository;
 
-    @RequestMapping(value = "investigationalProduct", method = RequestMethod.GET)
+    @RequestMapping(value = "investigational-product", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
             @RequestParam(value = "page", required = false) Optional<Integer> page

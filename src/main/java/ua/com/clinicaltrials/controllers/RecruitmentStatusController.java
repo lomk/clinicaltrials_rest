@@ -19,7 +19,7 @@ public class RecruitmentStatusController {
     @Autowired
     RecruitmentStatusRepository recruitmentStatusRepository;
 
-    @RequestMapping(value = "recruitmentStatus", method = RequestMethod.GET)
+    @RequestMapping(value = "recruitment-status", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
             @RequestParam(value = "page", required = false) Optional<Integer> page

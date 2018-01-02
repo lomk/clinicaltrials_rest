@@ -19,7 +19,7 @@ public class CroUkraineController {
     @Autowired
     CroUkraineRepository croUkraineRepository;
 
-    @RequestMapping(value = "croUkraine", method = RequestMethod.GET)
+    @RequestMapping(value = "cro-ukraine", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
             @RequestParam(value = "page", required = false) Optional<Integer> page

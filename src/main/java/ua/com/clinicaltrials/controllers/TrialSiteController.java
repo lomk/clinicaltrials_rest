@@ -23,7 +23,7 @@ public class TrialSiteController {
     @Autowired
     TrialSiteRepository trialSiteRepository;
 
-    @RequestMapping(value = "trialSite", method = RequestMethod.GET)
+    @RequestMapping(value = "trial-site", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
             @RequestParam(value = "page", required = false) Optional<Integer> page

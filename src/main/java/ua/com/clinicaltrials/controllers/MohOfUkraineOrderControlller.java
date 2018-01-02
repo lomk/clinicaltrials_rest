@@ -19,7 +19,7 @@ public class MohOfUkraineOrderControlller {
     @Autowired
     MohOfUkraineOrderRepository mohOfUkraineOrderRepository;
 
-    @RequestMapping(value = "mohOfUkraineOrder", method = RequestMethod.GET)
+    @RequestMapping(value = "moh-of-ukraine-order", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
             @RequestParam(value = "page", required = false) Optional<Integer> page

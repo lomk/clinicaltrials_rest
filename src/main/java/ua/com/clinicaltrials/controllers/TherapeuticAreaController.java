@@ -19,7 +19,7 @@ public class TherapeuticAreaController {
     @Autowired
     TherapeuticAreaRepository therapeuticAreaRepository;
 
-    @RequestMapping(value = "therapeuticArea", method = RequestMethod.GET)
+    @RequestMapping(value = "therapeutic-area", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
             @RequestParam(value = "page", required = false) Optional<Integer> page

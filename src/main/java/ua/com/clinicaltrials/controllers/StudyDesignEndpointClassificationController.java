@@ -19,7 +19,7 @@ public class StudyDesignEndpointClassificationController {
     @Autowired
     StudyDesignEndpointClassificationRepository studyDesignEndpointClassificationRepository;
 
-    @RequestMapping(value = "studyDesignEndpointClassification", method = RequestMethod.GET)
+    @RequestMapping(value = "study-design-endpoint-classification", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
             @RequestParam(value = "page", required = false) Optional<Integer> page

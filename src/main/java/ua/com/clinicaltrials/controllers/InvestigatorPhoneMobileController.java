@@ -19,7 +19,7 @@ public class InvestigatorPhoneMobileController {
     @Autowired
     InvestigatorPhoneMobileRepository investigatorPhoneMobileRepository;
 
-    @RequestMapping(value = "investigatorPhoneMobile", method = RequestMethod.GET)
+    @RequestMapping(value = "investigator-phone-mobile", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
             @RequestParam(value = "page", required = false) Optional<Integer> page

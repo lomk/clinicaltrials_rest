@@ -19,7 +19,7 @@ public class StudyDesignAllocationController {
     @Autowired
     StudyDesignAllocationRepository studyDesignAllocationRepository;
 
-    @RequestMapping(value = "studyDesignAllocation", method = RequestMethod.GET)
+    @RequestMapping(value = "study-design-allocation", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
             @RequestParam(value = "page", required = false) Optional<Integer> page

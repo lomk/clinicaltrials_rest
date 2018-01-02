@@ -19,7 +19,7 @@ public class StudyDesignPrimaryPurposeController {
     @Autowired
     StudyDesignPrimaryPurposeRepository studyDesignPrimaryPurposeRepository;
 
-    @RequestMapping(value = "studyDesignPrimaryPurpose", method = RequestMethod.GET)
+    @RequestMapping(value = "study-design-primary-purpose", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
             @RequestParam(value = "id", required = false) Optional<Integer> id,
             @RequestParam(value = "page", required = false) Optional<Integer> page
