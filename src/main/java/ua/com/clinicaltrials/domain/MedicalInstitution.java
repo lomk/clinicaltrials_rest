@@ -56,5 +56,5 @@ public class MedicalInstitution implements Serializable {
     private String fax;
 
 //    @OneToMany(mappedBy = "medicalInstitution", targetEntity = MedicalInstitutionDepartment.class)
-//    private List<InvestigatorFax> faxList;
+//    private List<Fax> faxList;
 }

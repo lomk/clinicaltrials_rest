@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ua.com.clinicaltrials.domain.InvestigatorPhone;
+import ua.com.clinicaltrials.domain.Phone;
 import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.InvestigatorPhoneRepository;
 
@@ -27,27 +27,27 @@ public class InvestigatorPhoneController {
 
         if (page.isPresent() && !id.isPresent()) {
 
-            List<InvestigatorPhone> investigatorPhoneList = investigatorPhoneRepository.findAll();
-            if (investigatorPhoneList == null){
+            List<Phone> phoneList = investigatorPhoneRepository.findAll();
+            if (phoneList == null){
                 return new ResponseEntity<>(new CustomErrorType("No data found"),
                         HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<>(investigatorPhoneList, HttpStatus.OK);
+            return new ResponseEntity<>(phoneList, HttpStatus.OK);
         }
 
         if (id.isPresent() && !id.get().toString().isEmpty() && !page.isPresent()) {
 
-            InvestigatorPhone investigatorPhone = investigatorPhoneRepository.findOne(id.get());
-            if (investigatorPhone == null){
+            Phone phone = investigatorPhoneRepository.findOne(id.get());
+            if (phone == null){
                 try {
                     return new ResponseEntity<>(new CustomErrorType(
-                            "InvestigatorPhone with id " + id.get() + " not found."),
+                            "Phone with id " + id.get() + " not found."),
                             HttpStatus.NOT_FOUND);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
             }
-            return new ResponseEntity<>(investigatorPhone, HttpStatus.OK);
+            return new ResponseEntity<>(phone, HttpStatus.OK);
         }
 
         return new ResponseEntity<>(new CustomErrorType(

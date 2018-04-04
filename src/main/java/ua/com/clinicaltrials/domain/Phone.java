@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Table(name = "phone")
 @Getter
 @Setter
-public class InvestigatorPhone implements Serializable {
+public class Phone implements Serializable {
     private static final long serialVersionUID = -1000119478102552957L;
 
     @Id

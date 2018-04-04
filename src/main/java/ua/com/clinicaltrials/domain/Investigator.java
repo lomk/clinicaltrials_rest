@@ -53,14 +53,25 @@ public class Investigator implements Serializable {
     )
     private List<AcademicDegree> academicDegrees;
 
-    @OneToMany(mappedBy = "investigator", targetEntity = InvestigatorPhone.class)
-    private List<InvestigatorPhone> phoneList;
-
-    @OneToMany(mappedBy = "investigator", targetEntity = InvestigatorPhoneMobile.class)
-    private List<InvestigatorPhoneMobile> phoneMobileList;
-
-    @OneToMany(mappedBy = "investigator", targetEntity = InvestigatorFax.class)
-    private List<InvestigatorFax> faxList;
+    @ManyToMany
+    @JoinTable(name = "investigator_phone",
+            joinColumns = {@JoinColumn(name = "investigator_id")},
+            inverseJoinColumns = {@JoinColumn(name = "phone_id")}
+    )
+    private List<Phone> phones;
 
 
+    @ManyToMany
+    @JoinTable(name = "investigator_mobile_phone",
+            joinColumns = {@JoinColumn(name = "investigator_id")},
+            inverseJoinColumns = {@JoinColumn(name = "mobile_phone_id")}
+    )
+    private List<MobilePhone> mobilePhones;
+
+    @ManyToMany
+    @JoinTable(name = "investigator_fax",
+            joinColumns = {@JoinColumn(name = "investigator_id")},
+            inverseJoinColumns = {@JoinColumn(name = "fax_id")}
+    )
+    private List<Fax> faxes;
 }

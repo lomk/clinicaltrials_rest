@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Table(name = "investigator_phone_mobile")
 @Getter
 @Setter
-public class InvestigatorPhoneMobile implements Serializable {
+public class MobilePhone implements Serializable {
     private static final long serialVersionUID = -1000119478145452957L;
 
     @Id
@@ -29,7 +29,7 @@ public class InvestigatorPhoneMobile implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "phone_mobile_code_id")
-    private PhoneMobileCode phoneMobileCode;
+    private MobilePhoneCode mobilePhoneCode;
 
     @Column(name = "phone")
     private String phone;

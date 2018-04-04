@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ua.com.clinicaltrials.domain.InvestigatorPhoneMobile;
+import ua.com.clinicaltrials.domain.MobilePhone;
 import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.InvestigatorPhoneMobileRepository;
 
@@ -27,27 +27,27 @@ public class InvestigatorPhoneMobileController {
 
         if (page.isPresent() && !id.isPresent()) {
 
-            List<InvestigatorPhoneMobile> investigatorPhoneMobileList = investigatorPhoneMobileRepository.findAll();
-            if (investigatorPhoneMobileList == null){
+            List<MobilePhone> mobilePhoneList = investigatorPhoneMobileRepository.findAll();
+            if (mobilePhoneList == null){
                 return new ResponseEntity<>(new CustomErrorType("No data found"),
                         HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<>(investigatorPhoneMobileList, HttpStatus.OK);
+            return new ResponseEntity<>(mobilePhoneList, HttpStatus.OK);
         }
 
         if (id.isPresent() && !id.get().toString().isEmpty() && !page.isPresent()) {
 
-            InvestigatorPhoneMobile investigatorPhoneMobile = investigatorPhoneMobileRepository.findOne(id.get());
-            if (investigatorPhoneMobile == null){
+            MobilePhone mobilePhone = investigatorPhoneMobileRepository.findOne(id.get());
+            if (mobilePhone == null){
                 try {
                     return new ResponseEntity<>(new CustomErrorType(
-                            "InvestigatorPhoneMobile with id " + id.get() + " not found."),
+                            "MobilePhone with id " + id.get() + " not found."),
                             HttpStatus.NOT_FOUND);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
             }
-            return new ResponseEntity<>(investigatorPhoneMobile, HttpStatus.OK);
+            return new ResponseEntity<>(mobilePhone, HttpStatus.OK);
         }
 
         return new ResponseEntity<>(new CustomErrorType(

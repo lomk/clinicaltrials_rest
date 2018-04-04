@@ -25,7 +25,10 @@ public class CategoryController {
             @RequestParam(value = "lang", required = false) Optional<String> lang
     ) {
 
-        if (search.isPresent() && page.isPresent() && lang.isPresent() && !id.isPresent()) {
+        if (search.isPresent()
+                && page.isPresent()
+                && lang.isPresent()
+                && !id.isPresent()) {
             if (lang.get().equals("ru")){
                 List<Category> categoryList = categoryRepository.findAllByNameRuContains(search.get());
                 if (categoryList == null){
@@ -53,7 +56,9 @@ public class CategoryController {
             return new ResponseEntity<>("Bad lang", HttpStatus.OK);
         }
 
-        if (page.isPresent() && !id.isPresent() && !search.isPresent()) {
+        if (page.isPresent()
+                && !id.isPresent()
+                && !search.isPresent()) {
 
             List<Category> categoryList = categoryRepository.findAll();
             if (categoryList == null){
@@ -63,7 +68,10 @@ public class CategoryController {
             return new ResponseEntity<>(categoryList, HttpStatus.OK);
         }
 
-        if (id.isPresent() && !id.get().toString().isEmpty() && !page.isPresent() && !search.isPresent()) {
+        if (id.isPresent()
+                && !id.get().toString().isEmpty()
+                && !page.isPresent()
+                && !search.isPresent()) {
 
             Category category = categoryRepository.findOne(id.get());
             if (category == null){

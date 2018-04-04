@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.com.clinicaltrials.domain.InvestigatorFax;
+import ua.com.clinicaltrials.domain.Fax;
 import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.InvestigatorFaxRepository;
 
@@ -15,39 +15,39 @@ public class AdminInvestigatorFaxController {
     InvestigatorFaxRepository investigatorFaxRepository;
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody InvestigatorFax investigatorFax){
-        InvestigatorFax currentInvestigatorFax = investigatorFaxRepository.findOne(id);
-        if (currentInvestigatorFax == null){
+    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody Fax fax){
+        Fax currentFax = investigatorFaxRepository.findOne(id);
+        if (currentFax == null){
             return new ResponseEntity<>(new CustomErrorType(
-                    "Unable to upate. InvestigatorFax with id " + id + " not found."),
+                    "Unable to upate. Fax with id " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }
 
-        investigatorFaxRepository.save(currentInvestigatorFax);
-        return new ResponseEntity<>(currentInvestigatorFax, HttpStatus.OK);
+        investigatorFaxRepository.save(currentFax);
+        return new ResponseEntity<>(currentFax, HttpStatus.OK);
     }
 
     @RequestMapping(value="add", method=RequestMethod.POST, produces = "application/json", consumes = "application/json")
-    public ResponseEntity<?> add(@RequestBody InvestigatorFax investigatorFax){
+    public ResponseEntity<?> add(@RequestBody Fax fax){
 
-        if (investigatorFax == null){
-            return new ResponseEntity<>(new CustomErrorType("No investigatorFax"),HttpStatus.NOT_ACCEPTABLE);
+        if (fax == null){
+            return new ResponseEntity<>(new CustomErrorType("No fax"),HttpStatus.NOT_ACCEPTABLE);
         }
 
-        investigatorFaxRepository.save(investigatorFax);
-        return new ResponseEntity<>(investigatorFax, HttpStatus.CREATED);
+        investigatorFaxRepository.save(fax);
+        return new ResponseEntity<>(fax, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
-        InvestigatorFax investigatorFax = investigatorFaxRepository.findOne(id);
-        if (investigatorFax == null ){
+        Fax fax = investigatorFaxRepository.findOne(id);
+        if (fax == null ){
             return new ResponseEntity<>(new CustomErrorType(
-                    "InvestigatorFax with id " + id + " not found."),
+                    "Fax with id " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }
         try {
-            investigatorFaxRepository.delete(investigatorFax);
+            investigatorFaxRepository.delete(fax);
         } catch (Exception e){
             return new ResponseEntity<>(new CustomErrorType(
                     "SQL error."),

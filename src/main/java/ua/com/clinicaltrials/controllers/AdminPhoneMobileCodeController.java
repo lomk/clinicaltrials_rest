@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.com.clinicaltrials.domain.PhoneMobileCode;
+import ua.com.clinicaltrials.domain.MobilePhoneCode;
 import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.PhoneMobileCodeRepository;
 
@@ -15,40 +15,40 @@ public class AdminPhoneMobileCodeController {
     PhoneMobileCodeRepository phoneMobileCodeRepository;
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody PhoneMobileCode phoneMobileCode){
-        PhoneMobileCode currentPhoneMobileCode = phoneMobileCodeRepository.findOne(id);
-        if (currentPhoneMobileCode == null){
+    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody MobilePhoneCode mobilePhoneCode){
+        MobilePhoneCode currentMobilePhoneCode = phoneMobileCodeRepository.findOne(id);
+        if (currentMobilePhoneCode == null){
             return new ResponseEntity<>(new CustomErrorType(
-                    "Unable to upate. PhoneMobileCode with id " + id + " not found."),
+                    "Unable to upate. MobilePhoneCode with id " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }
 
-        phoneMobileCodeRepository.save(currentPhoneMobileCode);
-        return new ResponseEntity<>(currentPhoneMobileCode, HttpStatus.OK);
+        phoneMobileCodeRepository.save(currentMobilePhoneCode);
+        return new ResponseEntity<>(currentMobilePhoneCode, HttpStatus.OK);
     }
 
     @RequestMapping(value="add", method=RequestMethod.POST, produces = "application/json", consumes = "application/json")
-    public ResponseEntity<?> add(@RequestBody PhoneMobileCode phoneMobileCode){
+    public ResponseEntity<?> add(@RequestBody MobilePhoneCode mobilePhoneCode){
 
-        if (phoneMobileCode == null){
-            return new ResponseEntity<>(new CustomErrorType("No phoneMobileCode"),HttpStatus.NOT_ACCEPTABLE);
+        if (mobilePhoneCode == null){
+            return new ResponseEntity<>(new CustomErrorType("No mobilePhoneCode"),HttpStatus.NOT_ACCEPTABLE);
         }
 
 
-        phoneMobileCodeRepository.save(phoneMobileCode);
-        return new ResponseEntity<>(phoneMobileCode, HttpStatus.CREATED);
+        phoneMobileCodeRepository.save(mobilePhoneCode);
+        return new ResponseEntity<>(mobilePhoneCode, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
-        PhoneMobileCode phoneMobileCode = phoneMobileCodeRepository.findOne(id);
-        if (phoneMobileCode == null ){
+        MobilePhoneCode mobilePhoneCode = phoneMobileCodeRepository.findOne(id);
+        if (mobilePhoneCode == null ){
             return new ResponseEntity<>(new CustomErrorType(
-                    "PhoneMobileCode with id " + id + " not found."),
+                    "MobilePhoneCode with id " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }
         try {
-            phoneMobileCodeRepository.delete(phoneMobileCode);
+            phoneMobileCodeRepository.delete(mobilePhoneCode);
         } catch (Exception e){
             return new ResponseEntity<>(new CustomErrorType(
                     "SQL error."),

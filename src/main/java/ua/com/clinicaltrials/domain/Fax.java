@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Table(name = "investigator_fax")
 @Getter
 @Setter
-public class InvestigatorFax implements Serializable {
+public class Fax implements Serializable {
     private static final long serialVersionUID = -1000119478191452957L;
 
     @Id

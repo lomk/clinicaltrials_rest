@@ -1,5 +1,6 @@
 package ua.com.clinicaltrials.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,9 +33,11 @@ public class Category implements Serializable {
     @Column
     private String url;
 
-//    @OneToMany(mappedBy = "category", targetEntity = Article.class)
-//    @OrderBy("dateField ASC")
-//    private List<Article> articles;
+    @JsonIgnore
+    @OneToMany(mappedBy = "category", targetEntity = Article.class)
+    @OrderBy("dateField ASC")
+    private List<Article> articles;
+
 
 
 }

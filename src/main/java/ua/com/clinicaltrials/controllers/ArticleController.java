@@ -13,11 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ua.com.clinicaltrials.domain.Article;
 import ua.com.clinicaltrials.domain.Category;
-import ua.com.clinicaltrials.domain.Tag;
 import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.ArticleRepository;
 import ua.com.clinicaltrials.repositories.CategoryRepository;
-import ua.com.clinicaltrials.repositories.TagRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +23,13 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/news")
-public class NewsController {
+@RequestMapping("/article")
+public class ArticleController {
     @Autowired
     private ArticleRepository articleRepository;
     @Autowired
     private CategoryRepository categoryRepository;
-    @Autowired
-    TagRepository tagRepository;
+
 
     @RequestMapping(value = "articles", method = RequestMethod.GET)
     public ResponseEntity<?> articleList(
@@ -66,7 +63,6 @@ public class NewsController {
                 && !id.get().toString().isEmpty()
                 && !page.isPresent()
                 && !search.isPresent()
-                && !tags.isPresent()
                 && !category.isPresent()) {
 
             Article article = articleRepository.findOne(id.get());
@@ -79,15 +75,14 @@ public class NewsController {
         }
 
         if (category.isPresent()
-                && !category.get().toString().isEmpty()
                 && page.isPresent()
+                && !category.get().toString().isEmpty()
                 && !search.isPresent()
-                && !tags.isPresent()
                 && !id.isPresent()) {
 
             Category cat = categoryRepository.findByUrl(category.get());
             Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "dateField"));
-            Pageable pageable = new PageRequest(page.get(), 9, sort);
+            Pageable pageable = new PageRequest(page.get(), 19, sort);
 
             List<Article> articles = articleRepository.findByCategory(cat, pageable);
             if (articles == null){
@@ -98,29 +93,8 @@ public class NewsController {
             return new ResponseEntity<>(articles, HttpStatus.OK);
         }
 
-        if (tags.isPresent()
-                && !tags.get().toString().isEmpty()
-                && !page.isPresent()
-                && !search.isPresent()
-                && !id.isPresent()
-                && !category.isPresent()) {
 
-            List<Tag> tagList = new ArrayList<>();
 
-            tags.get().forEach(tag -> { try {
-                tagList.add(tagRepository.findByName(tag));
-            } catch(Exception e){
-                e.printStackTrace();
-            }
-            });
-            List<Article> articles = articleRepository.findByTags(tagList);
-            if (articles == null){
-                return new ResponseEntity<>(new CustomErrorType(
-                        "article with id " + id.get() + " not found."),
-                        HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<>(articles, HttpStatus.OK);
-        }
 
         return new ResponseEntity<>(new CustomErrorType(
                 "Bad parameters"),

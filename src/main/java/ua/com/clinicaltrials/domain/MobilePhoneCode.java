@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Table(name = "phone_mobile_code")
 @Getter
 @Setter
-public class PhoneMobileCode implements Serializable {
+public class MobilePhoneCode implements Serializable {
     private static final long serialVersionUID = -1000119478547292957L;
 
     @Id

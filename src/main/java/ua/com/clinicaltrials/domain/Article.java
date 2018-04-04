@@ -26,6 +26,9 @@ public class Article implements Serializable {
     private Integer id;
 
 
+    @Column(name = "url", nullable = false, length = 20)
+    private String url;
+
     @Column(name = "title_ua", nullable = false, length = 200)
     private String titleUa;
 
@@ -62,6 +65,7 @@ public class Article implements Serializable {
     @Column(name = "body_en", nullable = false, length = 10000, columnDefinition="TEXT")
     private String bodyEn;
 
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date_field")
     private Date dateField;
@@ -77,8 +81,5 @@ public class Article implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany
-    @JoinColumn(name = "tag_id")
-    private List<Tag> tags ;
 
 }

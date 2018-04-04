@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ua.com.clinicaltrials.domain.InvestigatorFax;
+import ua.com.clinicaltrials.domain.Fax;
 import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.InvestigatorFaxRepository;
 
@@ -27,27 +27,27 @@ public class InvestigatorFaxController {
 
         if (page.isPresent() && !id.isPresent()) {
 
-            List<InvestigatorFax> investigatorFaxList = investigatorFaxRepository.findAll();
-            if (investigatorFaxList == null){
+            List<Fax> faxList = investigatorFaxRepository.findAll();
+            if (faxList == null){
                 return new ResponseEntity<>(new CustomErrorType("No data found"),
                         HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<>(investigatorFaxList, HttpStatus.OK);
+            return new ResponseEntity<>(faxList, HttpStatus.OK);
         }
 
         if (id.isPresent() && !id.get().toString().isEmpty() && !page.isPresent()) {
 
-            InvestigatorFax investigatorFax = investigatorFaxRepository.findOne(id.get());
-            if (investigatorFax == null){
+            Fax fax = investigatorFaxRepository.findOne(id.get());
+            if (fax == null){
                 try {
                     return new ResponseEntity<>(new CustomErrorType(
-                            "InvestigatorFax with id " + id.get() + " not found."),
+                            "Fax with id " + id.get() + " not found."),
                             HttpStatus.NOT_FOUND);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
             }
-            return new ResponseEntity<>(investigatorFax, HttpStatus.OK);
+            return new ResponseEntity<>(fax, HttpStatus.OK);
         }
 
         return new ResponseEntity<>(new CustomErrorType(
