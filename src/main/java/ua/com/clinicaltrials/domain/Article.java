@@ -26,7 +26,7 @@ public class Article implements Serializable {
     private Integer id;
 
 
-    @Column(name = "url", nullable = false, length = 20)
+    @Column(name = "url", nullable = false, length = 100)
     private String url;
 
     @Column(name = "title_ua", nullable = false, length = 200)

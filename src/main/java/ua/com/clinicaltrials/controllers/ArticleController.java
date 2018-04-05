@@ -23,7 +23,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/article")
+//@RequestMapping("/article")
 public class ArticleController {
     @Autowired
     private ArticleRepository articleRepository;
@@ -31,7 +31,7 @@ public class ArticleController {
     private CategoryRepository categoryRepository;
 
 
-    @RequestMapping(value = "articles", method = RequestMethod.GET)
+    @RequestMapping(value = "article", method = RequestMethod.GET)
     public ResponseEntity<?> articleList(
             @RequestParam(value = "search", required = false) Optional<String> search,
             @RequestParam(value = "id", required = false) Optional<Integer> id,
@@ -80,12 +80,13 @@ public class ArticleController {
                 && !search.isPresent()
                 && !id.isPresent()) {
 
-            Category cat = categoryRepository.findByUrl(category.get());
+            List<Category> categories = categoryRepository.findByUrl(category.get());
+            Category cat = categories.get(0);
             Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "dateField"));
             Pageable pageable = new PageRequest(page.get(), 19, sort);
 
             List<Article> articles = articleRepository.findByCategory(cat, pageable);
-            if (articles == null){
+            if (articles == null || articles.isEmpty()){
                 return new ResponseEntity<>(new CustomErrorType(
                         "article with category " + category.get() + " not found."),
                         HttpStatus.NOT_FOUND);

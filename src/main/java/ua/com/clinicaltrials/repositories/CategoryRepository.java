@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Igor on 07-Jul-16.
  */
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
-    Category findByUrl(String url);
+    List<Category> findByUrl(String url);
 
     List<Category> findAllByNameEnLike(String search);
     List<Category> findAllByNameRuLike(String search);
