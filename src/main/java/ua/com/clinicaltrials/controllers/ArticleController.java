@@ -17,7 +17,6 @@ import ua.com.clinicaltrials.errors.CustomErrorType;
 import ua.com.clinicaltrials.repositories.ArticleRepository;
 import ua.com.clinicaltrials.repositories.CategoryRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
